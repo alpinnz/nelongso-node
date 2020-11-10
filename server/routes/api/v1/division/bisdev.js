@@ -1,15 +1,9 @@
 const router = require("express").Router();
-const {
-  Index,
-  InvestorManagement,
-  OutletProfiles,
-} = require("./../../../../controllers/division/Bisdev");
 
-/* GET home page. */
-router.get("/", Index);
+const InvestorManagement = require("./../../../../controllers/division/bisdev/InvestorManagement");
+router.get("/investor-management", InvestorManagement.ReadAll);
 
-router.post("/investor-management", InvestorManagement);
-
-router.post("/outlet-profiles", OutletProfiles);
+const OutletProfiles = require("./../../../../controllers/division/bisdev/OutletProfiles");
+router.get("/outlet-profiles", OutletProfiles.ReadAll);
 
 module.exports = router;

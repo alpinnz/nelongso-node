@@ -11,4 +11,7 @@ router.use("/bisdev", bisdev);
 const keuangan = require("./keuangan");
 router.use("/keuangan", keuangan);
 
+const marketing = require("./marketing");
+router.use("/marketing", marketing);
+
 module.exports = router;
