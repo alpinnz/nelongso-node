@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "server": "",
+    "client": "",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alpinnz/nelongso-node.git"
@@ -16,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/alpinnz/nelongso-node/issues"
   },
-  "homepage": "https://github.com/alpinnz/nelongso-node#readme"
+  "homepage": "https://github.com/alpinnz/nelongso-node#readme",
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
 }
