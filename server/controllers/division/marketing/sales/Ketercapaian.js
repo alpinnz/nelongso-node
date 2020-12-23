@@ -75,6 +75,30 @@ const DataSet = {
   ],
 };
 
+function convertToFloat(rupiah) {
+  let string = `${rupiah}`;
+  let string1 = string.replace(/[^,0-9]/g, "");
+  let string2 = parseFloat(string1.replace(/,/g, ".")).toFixed(2);
+  if (string2 == "NaN") {
+    return "0.00";
+  } else {
+    return string2;
+  }
+}
+
+const titleKey = (text) => {
+  const string = `${text}`;
+  const filter1 = string.substring(0, 1).replace(" ", "");
+  const filter2 = string.substring(1);
+  const titleText = filter1 + filter2;
+  const titleText1 = titleText.replace(/ /g, "_").toLowerCase();
+  if (titleText1 === "undefined") {
+    return "";
+  } else {
+    return titleText1;
+  }
+};
+
 exports.ReadAll = async (req, res) => {
   const schema = Joi.object({
     year: Joi.number().min(2020).max(2021).required(),
@@ -116,18 +140,16 @@ exports.ReadAll = async (req, res) => {
 
     let data = [];
 
-    const titleKey = (text) => {
-      const string = `${text}`;
-      const filter1 = string.substring(0, 1).replace(" ", "");
-      const filter2 = string.substring(1);
-      const titleText = filter1 + filter2;
-      return titleText.replace(/ /g, "_").toLowerCase();
-    };
     if (
       sheetName == "KETERCAPAIAN OMZET" ||
       sheetName == "KETERCAPAIAN KUNJUNGAN" ||
       sheetName == "KETERCAPAIAN BASKET SIZE" ||
       sheetName == "BULAN SEBELUM VS BULAN SEKARANG"
+      // ||
+      // sheetName == "KETERCAPAIAN JATIM 1" ||
+      // sheetName == "KETERCAPAIAN JATIM 2" ||
+      // sheetName == "KETERCAPAIAN JATIM 3" ||
+      // sheetName == "KETERCAPAIAN JABAR"
     ) {
       const lineHeader = 6;
       newSpreadsheetData.forEach((e, i) => {
@@ -135,8 +157,17 @@ exports.ReadAll = async (req, res) => {
           let row = {};
           newSpreadsheetData[6].forEach((child, index) => {
             const title = titleKey(child);
-
-            row[title] = e[index] || "";
+            if (
+              title === "nama_outlet" ||
+              title === "no" ||
+              title === "regional"
+            ) {
+              row[title] = titleKey(e[index]) || "";
+            } else if (title === "%") {
+              row["persentase"] = convertToFloat(e[index]) || "0.0";
+            } else {
+              row[title] = convertToFloat(e[index]) || "0.0";
+            }
           });
 
           data.push(row);
@@ -152,11 +183,11 @@ exports.ReadAll = async (req, res) => {
           newSpreadsheetData[6].forEach((child, index) => {
             const title = titleKey(child);
             if (index == 2) {
-              row["omzet_bulan_" + (Body.year - 1)] = e[index] || "";
+              row["omzet_1_bulan_sebelum"] = convertToFloat(e[index]) || "0.0";
             } else if (index == 3) {
-              row["omzet_bulan_" + Body.year] = e[index] || "";
+              row["omzet_bulan_sekarang"] = convertToFloat(e[index]) || "0.0";
             } else {
-              row[title] = e[index] || "";
+              row[title] = titleKey(e[index]) || "";
             }
           });
 
@@ -172,7 +203,18 @@ exports.ReadAll = async (req, res) => {
           let row = {};
           newSpreadsheetData[5].forEach((child, index) => {
             const title = titleKey(child);
-            row[title] = e[index] || "";
+
+            if (
+              title === "nama_outlet" ||
+              title === "no" ||
+              title === "regional"
+            ) {
+              row[title] = titleKey(e[index]) || "";
+            } else if (title === "%") {
+              row["persentase"] = convertToFloat(e[index]) || "0.0";
+            } else {
+              row[title] = convertToFloat(e[index]) || "0.0";
+            }
           });
 
           data.push(row);

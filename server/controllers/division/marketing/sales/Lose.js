@@ -4,7 +4,6 @@ const {
   resSuccess,
 } = require("./../../../../helpers/HandleResponse");
 const { Spreadsheet } = require("./../../../../config/Spreadsheet");
-const { json } = require("body-parser");
 
 const DataSet = {
   getSpreadsheets: [
@@ -41,15 +40,17 @@ const DataSet = {
         },
         {
           id: 8,
+
           spreadsheetId: null,
         },
         {
           id: 9,
+
           spreadsheetId: null,
         },
         {
           id: 10,
-          spreadsheetId: "1FLKnkYsefLZnQI2zRujYJcdqepz91Tbu1FYd9U7E-K8",
+          spreadsheetId: "1me7sO5-Wl3Rhzn1u16FHqkZyQupic6skEeHSlR_KGY4",
         },
         {
           id: 11,
@@ -62,7 +63,7 @@ const DataSet = {
       ],
     },
   ],
-  getSheetName: ["JABAR", "JATIM 1", "JATIM 2", "JATIM 3"],
+  getSheetName: ["REKAP OUTLET", "OUTLET", "MENU"],
 };
 
 function convertToFloat(rupiah) {
@@ -76,17 +77,18 @@ function convertToFloat(rupiah) {
   }
 }
 
-const titleKey = (text) => {
+const textConvert = (text) => {
   const string = `${text}`;
   const filter1 = string.substring(0, 1).replace(" ", "");
   const filter2 = string.substring(1);
   const titleText = filter1 + filter2;
-  return titleText.replace(/ /g, "_").toLowerCase();
+  const text1 = titleText.replace(/ /g, "_").toLowerCase();
+  return text1.replace(".", "");
 };
 
 exports.ReadAll = async (req, res) => {
   const schema = Joi.object({
-    year: Joi.number().min(2020).max(2021).required(),
+    year: Joi.number().min(2020).max(2020).required(),
     sheet: Joi.string().required(),
     month: Joi.number().min(1).max(12).required(),
   });
@@ -115,76 +117,76 @@ exports.ReadAll = async (req, res) => {
     const { spreadsheetId } = dataMonth;
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
-    if (!spreadsheetData) {
-      return resError(res, `spreadsheetData not found`, 404);
-    }
-
     // _________________
 
     let data = [];
 
-    let outlets = [];
-    spreadsheetData[4].forEach((e, i) => {
-      if (i > 0 && e != null && e != "") {
-        outlets.push(e);
-      }
-    });
+    if (sheetName === "REKAP OUTLET") {
+      const titles = [];
 
-    const columns = ["omzet", "lose_sale", "potensial_omzet"];
+      spreadsheetData[5].forEach((e, i) => {
+        if (i > 2) {
+          if (e !== "" && e !== null) {
+            titles.push(textConvert(e));
+          }
+        }
+      });
 
-    const lineHeader = 5;
-    spreadsheetData.forEach((e, i) => {
-      if (i > lineHeader) {
+      const subTitle = ["code", "nama", "harga_jual"];
+      let id = 1;
+
+      for (let index = 0; index < spreadsheetData.length; index++) {
         let row = {};
-        row["tanggal"] = e[0];
         let data_outlet = [];
-        let index = 0;
-        outlets.forEach((child) => {
-          let valueColumns = {};
-          const title = titleKey(child);
-          columns.forEach((item) => {
-            index++;
-            if (title === "nama") {
-              valueColumns[item] = `${e[index]}`.toLowerCase() || "";
-            } else {
-              valueColumns[item] = convertToFloat(e[index]) || "0.0";
+        row["id"] = `${id}`;
+        let i_title = 0;
+        for (let i = 0; i < spreadsheetData[index].length; i++) {
+          const e = spreadsheetData[index];
+
+          if (i < 3) {
+            row[subTitle[i]] = e[i] || "";
+            console.log(row);
+          } else {
+            if (i % 2 == 0) {
+              data_outlet.push({
+                id: `${i_title + 1}`,
+                outlet_name: titles[i_title] || "",
+                qty: convertToFloat(e[i - 1]) || "0.0",
+                total: convertToFloat(e[i]) || "0.0",
+              });
+              i_title++;
             }
-          });
-          data_outlet.push({
-            nama: title,
-            data: valueColumns,
-          });
-        });
-        row["outlets"] = data_outlet;
-        data.push(row);
-      } else {
-        i = lineHeader + 1;
-      }
-    });
+          }
+        }
+        row["data"] = data_outlet;
 
-    const temp_data = data[0]["outlets"].map((e, i) => {
-      return {
-        id: `${i + 1}`,
-        nama_outlet: e["nama"],
-        data: [],
-      };
-    });
-
-    for (let i = 0; i < data.length; i++) {
-      for (let x = 0; x < data[i]["outlets"].length; x++) {
-        let res = data[i]["outlets"][x];
-        let index = temp_data.findIndex((e) => e.nama_outlet == res["nama"]);
-        // res["data"]["id"] = data[i]["tanggal"];
-        temp_data[index]["data"].push({
-          id: data[i]["tanggal"],
-          supplier: res["data"],
-        });
+        if (index > 7) {
+          data.push(row);
+          id++;
+        }
       }
+    } else if (sheetName === "OUTLET" || sheetName === "MENU") {
+      let id = 1;
+      spreadsheetData.forEach((e, i) => {
+        let row = {};
+        spreadsheetData[5].forEach((x, i_x) => {
+          if (i_x == 0) {
+            row["id"] = `${id}`;
+            row[textConvert(x)] = e[i_x] || "";
+          } else {
+            row[textConvert(x)] = convertToFloat(e[i_x]) || "0.0";
+          }
+        });
+
+        if (i > 5) {
+          data.push(row);
+          id++;
+        }
+      });
+    } else {
+      return resSuccess(res, `Keuangan -> ${sheetName}`, null);
     }
-
-    data = temp_data;
-
-    return resSuccess(res, `marketing -> admin -> ${sheetName}`, data);
+    return resSuccess(res, `Keuangan -> ${sheetName}`, data);
   } catch (err) {
     return resError(res, err, 404);
   }

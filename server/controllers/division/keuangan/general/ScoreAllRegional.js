@@ -168,9 +168,11 @@ exports.ReadAll = async (req, res) => {
       });
     } else if (sheetName == "SHARE PROFIT & BEP") {
       const lineHeader = 5;
+      let id = 1;
       newSpreadsheetData.forEach((e, i) => {
         if (i > lineHeader) {
           const row = {
+            id: `${id++}`,
             outlet: titleKey(e[0]) || "",
             share_profit: {
               nelongso: convertToFloat(e[1]) || "0.0",
