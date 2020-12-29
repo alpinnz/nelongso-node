@@ -17,4 +17,7 @@ router.use("/marketing", marketing);
 const operasional = require("./operasional");
 router.use("/operasional", operasional);
 
+const produksi = require("./produksi");
+router.use("/produksi", produksi);
+
 module.exports = router;

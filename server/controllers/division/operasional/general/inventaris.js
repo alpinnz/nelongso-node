@@ -86,8 +86,8 @@ exports.ReadAll = async (req, res) => {
           temp_outlets.push({
             id: `${i_outlet + 1}`,
             name_outlet: outlets[i_outlet],
-            standar_jumlah: spreadsheetData[i][j],
-            crosscheck: spreadsheetData[i][j + 1],
+            standar_jumlah: spreadsheetData[i][j] || "0",
+            crosscheck: spreadsheetData[i][j + 1] || "0",
           });
           j++;
           i_outlet++;
@@ -96,7 +96,7 @@ exports.ReadAll = async (req, res) => {
       row["data"] = temp_outlets;
       data.push(row);
     }
-    return res.json(data);
+    // return res.json(data);
 
     return resSuccess(res, `Operasional -> ${sheetName}`, data);
   } catch (err) {

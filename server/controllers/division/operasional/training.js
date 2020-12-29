@@ -44,9 +44,11 @@ exports.ReadAll = async (req, res) => {
     // _________________
 
     let data = [];
+    let id = 1;
 
     spreadsheetData.forEach((e, i) => {
       let row = {
+        id: `${id || ""}`,
         kode: `${e[0] || ""}`,
         materi: `${e[1] || ""}`,
         standart: `${e[2] || ""}`,
@@ -65,6 +67,7 @@ exports.ReadAll = async (req, res) => {
       };
       if (i > 6) {
         data.push(row);
+        id++;
       }
     });
 

@@ -3,6 +3,7 @@ const {
   resSuccess,
 } = require("./../../../../helpers/HandleResponse");
 const { Spreadsheet } = require("./../../../../config/Spreadsheet");
+const { ToFloat } = require("./../../../../helpers/Convert");
 const Joi = require("joi");
 
 const DataSet = {
@@ -59,11 +60,12 @@ exports.ReadAll = async (req, res) => {
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
     // _________________
-
+    let id = 1;
     let data = [];
     if (sheetName === "REKAP FINAL ALL") {
       spreadsheetData.forEach((e, i) => {
         let row = {
+          outlet: `${id || ""}`,
           outlet: `${e[0] || ""}`,
           regional: `${e[1] || ""}`,
           bulan: `${e[2] || ""}`,
@@ -94,41 +96,43 @@ exports.ReadAll = async (req, res) => {
         };
         if (i > 5) {
           data.push(row);
+          id++;
         }
       });
     } else {
       spreadsheetData.forEach((e, i) => {
         let row = {
+          id: `${id || ""}`,
           outlet: `${e[0] || ""}`,
           regional: `${e[1] || ""}`,
           bulan: `${e[2] || ""}`,
           penilaian_1: `${e[3] || ""}`,
           score: {
-            ringkas_1: `${e[4] || ""}`,
-            ringkas_2: `${e[5] || ""}`,
-            ringkas_3: `${e[6] || ""}`,
-            ringkas_4: `${e[7] || ""}`,
-            ringkas_5: `${e[8] || ""}`,
-            ringkas_6: `${e[9] || ""}`,
-            rapi_1: `${e[10] || ""}`,
-            rapi_2: `${e[11] || ""}`,
-            rapi_3: `${e[12] || ""}`,
-            rapi_4: `${e[13] || ""}`,
-            rapi_5: `${e[14] || ""}`,
-            rapi_6: `${e[15] || ""}`,
-            resik_1: `${e[16] || ""}`,
-            resik_2: `${e[17] || ""}`,
-            resik_3: `${e[18] || ""}`,
-            resik_4: `${e[19] || ""}`,
-            resik_5: `${e[20] || ""}`,
-            resik_6: `${e[21] || ""}`,
+            ringkas_1: ToFloat(`${e[4] || ""}`),
+            ringkas_2: ToFloat(`${e[5] || ""}`),
+            ringkas_3: ToFloat(`${e[6] || ""}`),
+            ringkas_4: ToFloat(`${e[7] || ""}`),
+            ringkas_5: ToFloat(`${e[8] || ""}`),
+            ringkas_6: ToFloat(`${e[9] || ""}`),
+            rapi_1: ToFloat(`${e[10] || ""}`),
+            rapi_2: ToFloat(`${e[11] || ""}`),
+            rapi_3: ToFloat(`${e[12] || ""}`),
+            rapi_4: ToFloat(`${e[13] || ""}`),
+            rapi_5: ToFloat(`${e[14] || ""}`),
+
+            resik_1: ToFloat(`${e[15] || ""}`),
+            resik_2: ToFloat(`${e[16] || ""}`),
+            resik_3: ToFloat(`${e[17] || ""}`),
+            resik_4: ToFloat(`${e[18] || ""}`),
+            resik_5: ToFloat(`${e[19] || ""}`),
           },
-          total_nilai: `${e[22] || ""}`,
-          rata_nilai: `${e[23] || ""}`,
-          nilai: `${e[24] || ""}`,
+          total_nilai: ToFloat(`${e[20] || ""}`),
+          rata_nilai: ToFloat(`${e[21] || ""}`),
+          nilai: `${e[22] || ""}`,
         };
-        if (i > 5) {
+        if (i > 8) {
           data.push(row);
+          id++;
         }
       });
     }
