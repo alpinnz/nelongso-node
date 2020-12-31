@@ -9,6 +9,10 @@ const DataSet = {
       year: 2020,
       spreadsheetId: "1-MsYMTuv-nnhw6kQKJzRwdLGuWuBu-d-CvdiM3TtiE4",
     },
+    {
+      year: 2021,
+      spreadsheetId: "1csPWbsB8zcg6SjE8biDgRW3zT1X9TqI4MA0L_vvIAFY",
+    },
   ],
   getSheetName: ["TARGET OMZET", "TARGET KUNJUNGAN", "TARGET BASKET SIZE"],
 };
@@ -40,12 +44,12 @@ exports.ReadAll = async (req, res) => {
 
   const { error, value } = schema.validate(req.params);
   if (error) {
-    return resError(res, error.details[0].message, 404);
+    return resError(res, error.details[0].message, 200);
   }
   const Body = value;
   try {
     const dataYear = DataSet.getSpreadsheets.find((e) => e.year == Body.year);
-    if (!dataYear) return resError(res, `${Body.year} not found`, 404);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
     const sheetName = DataSet.getSheetName.find((e) => e == Body.sheet);
 
     if (!sheetName) {
@@ -53,7 +57,7 @@ exports.ReadAll = async (req, res) => {
       return resError(
         res,
         `${Body.sheet} not found ,available : ${dataSheet}`,
-        404
+        200
       );
     }
 
@@ -61,7 +65,7 @@ exports.ReadAll = async (req, res) => {
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
     if (!spreadsheetData) {
-      return resError(res, `spreadsheetData not found`, 404);
+      return resError(res, `spreadsheetData not found`, 200);
     }
 
     // _________________
@@ -121,6 +125,6 @@ exports.ReadAll = async (req, res) => {
 
     return resSuccess(res, `marketing -> admin -> ${sheetName}`, data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

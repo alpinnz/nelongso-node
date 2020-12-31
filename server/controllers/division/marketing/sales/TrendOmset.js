@@ -6,13 +6,17 @@ const {
 const { Spreadsheet } = require("./../../../../config/Spreadsheet");
 
 const DataSet = {
-  getSpreadsheets: [
+  year: [
     {
-      year: 2020,
+      id: 2020,
       spreadsheetId: "12tlt1yLNj8xT-5ZG7AOhwzERBIO40WP25VwttoeXvzE",
     },
+    {
+      id: 2021,
+      spreadsheetId: "1z4H3bqKmoArGUUFaKEsRMpdUJCvH0ApztBDs3aYwG14",
+    },
   ],
-  getSheetName: [
+  sheetName: [
     "TREND OMZET",
     "TREND OMZET OUTLET PER TAHUN",
     "JANUARI",
@@ -58,20 +62,20 @@ exports.ReadAll = async (req, res) => {
 
   const { error, value } = schema.validate(req.params);
   if (error) {
-    return resError(res, error.details[0].message, 404);
+    return resError(res, error.details[0].message, 200);
   }
   const Body = value;
   try {
-    const dataYear = DataSet.getSpreadsheets.find((e) => e.year == Body.year);
-    if (!dataYear) return resError(res, `${Body.year} not found`, 404);
-    const sheetName = DataSet.getSheetName.find((e) => e == Body.sheet);
+    const dataYear = DataSet.year.find((e) => e.id == Body.year);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
+    const sheetName = DataSet.sheetName.find((e) => e == Body.sheet);
 
     if (!sheetName) {
-      const dataSheet = DataSet.getSheetName.join(", ");
+      const dataSheet = DataSet.sheetName.join(", ");
       return resError(
         res,
         `${Body.sheet} not found ,available : ${dataSheet}`,
-        404
+        200
       );
     }
 
@@ -79,7 +83,7 @@ exports.ReadAll = async (req, res) => {
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
     if (!spreadsheetData) {
-      return resError(res, `spreadsheetData not found`, 404);
+      return resError(res, `spreadsheetData not found`, 200);
     }
 
     // _________________
@@ -196,6 +200,6 @@ exports.ReadAll = async (req, res) => {
 
     return resSuccess(res, `marketing -> admin -> ${sheetName}`, data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

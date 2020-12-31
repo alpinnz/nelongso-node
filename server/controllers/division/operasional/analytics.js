@@ -39,12 +39,12 @@ exports.ReadAll = async (req, res) => {
 
   const { error, value } = schema.validate(req.params);
   if (error) {
-    return resError(res, error.details[0].message, 404);
+    return resError(res, error.details[0].message, 200);
   }
   const Body = value;
   try {
     const dataYear = DataSet.getSpreadsheets.find((e) => e.year == Body.year);
-    if (!dataYear) return resError(res, `${Body.year} not found`, 404);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
     const sheetName = DataSet.getSheetName.find((e) => e == Body.sheet);
 
     if (!sheetName) {
@@ -52,7 +52,7 @@ exports.ReadAll = async (req, res) => {
       return resError(
         res,
         `${Body.sheet} not found ,available : ${dataSheet}`,
-        404
+        200
       );
     }
 
@@ -151,6 +151,6 @@ exports.ReadAll = async (req, res) => {
 
     return resSuccess(res, `Operasional -> ${sheetName}`, data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

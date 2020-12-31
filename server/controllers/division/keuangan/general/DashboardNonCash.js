@@ -6,45 +6,45 @@ const {
 const { Spreadsheet } = require("./../../../../config/Spreadsheet");
 
 const DataSet = {
-  getSpreadsheets: [
+  year: [
     {
-      year: 2020,
+      id: 2020,
       month: [
         {
           id: 1,
-          spreadsheetId: null,
+          spreadsheetId: "1SjetdFCVj8QWq7uUXs8pfSGHpCXUz8X4QpzY74iHNJ0",
         },
         {
           id: 2,
-          spreadsheetId: null,
+          spreadsheetId: "1lTqkHX4MAt6MGkc5W9lwjQyFuVI4dtm1utm9nhQCwWo",
         },
         {
           id: 3,
-          spreadsheetId: null,
+          spreadsheetId: "1pqTXg4ExwT085Hw5jGYTAMcSxMThWawrigNFTslNYtU",
         },
         {
           id: 4,
-          spreadsheetId: null,
+          spreadsheetId: "1tGz4j8ZjlPQ775lJy5HbwP-TRdJ7kfvXVKmKZWwNxko",
         },
         {
           id: 5,
-          spreadsheetId: null,
+          spreadsheetId: "1lR2ecygHvTPiqDs2oKykjsGAYV5_ZnjbWe9rnnpXvuU",
         },
         {
           id: 6,
-          spreadsheetId: null,
+          spreadsheetId: "1mwiFHqkpe76tI22tXwUFq5V8PYBr6bBkk841qaoHpQ0",
         },
         {
           id: 7,
-          spreadsheetId: null,
+          spreadsheetId: "1fFlJ-d73NLoI7Drf774jCKHH2JxExw7HGf0IOELGp-8",
         },
         {
           id: 8,
-          spreadsheetId: null,
+          spreadsheetId: "1CAFUn1xHJHWU7vQYET-EsdqIIDOrFjv7WUjRalJbJys",
         },
         {
           id: 9,
-          spreadsheetId: null,
+          spreadsheetId: "1zaqs0UBzUpIw4XN5tDD_I-HoAtyNA1syoJCF1ZpRMKg",
         },
         {
           id: 10,
@@ -52,16 +52,16 @@ const DataSet = {
         },
         {
           id: 11,
-          spreadsheetId: null,
+          spreadsheetId: "1BJYHtGJSFyH30Cv8nZneJHuOqO6P2jrLOhwpBjgFCsE",
         },
         {
           id: 12,
-          spreadsheetId: null,
+          spreadsheetId: "1W_j_Q884-ndJTl-78MmUAEM7_XFUyDUEmmTM3HBSRb4",
         },
       ],
     },
   ],
-  getSheetName: [
+  sheetName: [
     "GORESTO",
     "GRABRESTO",
     "GOJEK & GRAB",
@@ -152,22 +152,22 @@ exports.ReadAll = async (req, res) => {
 
   const { error, value } = schema.validate(req.params);
   if (error) {
-    return resError(res, error.details[0].message, 404);
+    return resError(res, error.details[0].message, 200);
   }
   const Body = value;
   try {
-    const dataYear = DataSet.getSpreadsheets.find((e) => e.year == Body.year);
-    if (!dataYear) return resError(res, `${Body.year} not found`, 404);
+    const dataYear = DataSet.year.find((e) => e.id == Body.year);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
     const dataMonth = dataYear.month.find((e) => e.id == Body.month);
-    if (!dataMonth) return resError(res, `${Body.month} not found`, 404);
-    const sheetName = DataSet.getSheetName.find((e) => e == Body.sheet);
+    if (!dataMonth) return resError(res, `${Body.month} not found`, 200);
+    const sheetName = DataSet.sheetName.find((e) => e == Body.sheet);
 
     if (!sheetName) {
-      const dataSheet = DataSet.getSheetName.join(", ");
+      const dataSheet = DataSet.sheetName.join(", ");
       return resError(
         res,
         `${Body.sheet} not found ,available : ${dataSheet}`,
-        404
+        200
       );
     }
 
@@ -500,6 +500,6 @@ exports.ReadAll = async (req, res) => {
 
     return resSuccess(res, `Keuangan -> ${sheetName}`, data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

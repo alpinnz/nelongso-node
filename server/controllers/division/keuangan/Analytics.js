@@ -1,16 +1,19 @@
 const Joi = require("joi");
 const { resError, resSuccess } = require("./../../../helpers/HandleResponse");
 const { Spreadsheet } = require("./../../../config/Spreadsheet");
-const { json } = require("body-parser");
 
 const DataSet = {
-  getSpreadsheets: [
+  year: [
     {
-      year: 2020,
+      id: 2020,
       spreadsheetId: "1LNeZn26qZicFXoJixdMaoh_FdmhFKW0ppk31eX-OCoo",
     },
+    {
+      id: 2021,
+      spreadsheetId: "1vKdtsSymFMxBDRqGchdx02MtEAPthwh_vcQy1nOhdXA",
+    },
   ],
-  getSheetName: [
+  sheetName: [
     "TARGET OMZET",
     "JANUARI",
     "FEBRUARI",
@@ -27,6 +30,25 @@ const DataSet = {
   ],
 };
 
+function convertToFloat(rupiah) {
+  let string = `${rupiah}`;
+  let string1 = string.replace(/[^,0-9]/g, "");
+  let string2 = parseFloat(string1.replace(/,/g, ".")).toFixed(2);
+  if (string2 == "NaN") {
+    return "0.00";
+  } else {
+    return string2;
+  }
+}
+
+const titleKey = (text) => {
+  const string = `${text}`;
+  const filter1 = string.substring(0, 1).replace(" ", "");
+  const filter2 = string.substring(1);
+  const titleText = filter1 + filter2;
+  return titleText.replace(/ /g, "_").toLowerCase();
+};
+
 exports.ReadAll = async (req, res) => {
   const schema = Joi.object({
     year: Joi.number().min(2020).max(2021).required(),
@@ -35,20 +57,20 @@ exports.ReadAll = async (req, res) => {
 
   const { error, value } = schema.validate(req.params);
   if (error) {
-    return resError(res, error.details[0].message, 404);
+    return resError(res, error.details[0].message, 200);
   }
   const Body = value;
   try {
-    const dataYear = DataSet.getSpreadsheets.find((e) => e.year == Body.year);
-    if (!dataYear) return resError(res, `${Body.year} not found`, 404);
-    const sheetName = DataSet.getSheetName.find((e) => e == Body.sheet);
+    const dataYear = DataSet.year.find((e) => e.id == Body.year);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
+    const sheetName = DataSet.sheetName.find((e) => e == Body.sheet);
 
     if (!sheetName) {
-      const dataSheet = DataSet.getSheetName.join(", ");
+      const dataSheet = DataSet.sheetName.join(", ");
       return resError(
         res,
         `${Body.sheet} not found ,available : ${dataSheet}`,
-        404
+        200
       );
     }
 
@@ -58,25 +80,6 @@ exports.ReadAll = async (req, res) => {
     // _________________
 
     let data = [];
-
-    function convertToFloat(rupiah) {
-      let string = `${rupiah}`;
-      let string1 = string.replace(/[^,0-9]/g, "");
-      let string2 = parseFloat(string1.replace(/,/g, ".")).toFixed(2);
-      if (string2 == "NaN") {
-        return "0.00";
-      } else {
-        return string2;
-      }
-    }
-
-    const titleKey = (text) => {
-      const string = `${text}`;
-      const filter1 = string.substring(0, 1).replace(" ", "");
-      const filter2 = string.substring(1);
-      const titleText = filter1 + filter2;
-      return titleText.replace(/ /g, "_").toLowerCase();
-    };
 
     if (sheetName == "TARGET OMZET") {
       spreadsheetData.forEach((e, i) => {
@@ -153,6 +156,6 @@ exports.ReadAll = async (req, res) => {
 
     return resSuccess(res, `Keuangan -> ${sheetName}`, data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

@@ -13,8 +13,8 @@ exports.RegisterValid = async (req, res, next) => {
 
   if (error) {
     return res
-      .status(404)
-      .json(HandleResponse.Error(error.details[0].message, 404));
+      .status(200)
+      .json(HandleResponse.Error(error.details[0].message, 200));
   }
 
   req.body = value;
@@ -31,8 +31,8 @@ exports.LoginValid = async (req, res, next) => {
 
   if (error) {
     return res
-      .status(404)
-      .json(HandleResponse.Error(error.details[0].message, 404));
+      .status(200)
+      .json(HandleResponse.Error(error.details[0].message, 200));
   }
 
   req.body = value;
@@ -48,8 +48,8 @@ exports.TokenValid = async (req, res, next) => {
 
   if (error) {
     return res
-      .status(404)
-      .json(HandleResponse.Error(error.details[0].message, 404));
+      .status(200)
+      .json(HandleResponse.Error(error.details[0].message, 200));
   }
 
   req.body = value;
@@ -63,12 +63,12 @@ exports.UsernameValidate = async (req, res, next) => {
     });
     if (username) {
       return res
-        .status(404)
-        .json(HandleResponse.Error("Username is already", 404));
+        .status(200)
+        .json(HandleResponse.Error("Username is already", 200));
     }
     next();
   } catch (err) {
-    return res.status(404).json(HandleResponse.Error(err, 404));
+    return res.status(200).json(HandleResponse.Error(err, 200));
   }
 };
 
@@ -77,11 +77,11 @@ exports.EmailValidate = async (req, res, next) => {
     const email = await Accounts.findOne({ email: body.email });
     if (email) {
       return res
-        .status(404)
-        .json(HandleResponse.Error("Email is already", 404));
+        .status(200)
+        .json(HandleResponse.Error("Email is already", 200));
     }
     next();
   } catch (err) {
-    return res.status(404).json(HandleResponse.Error(err, 404));
+    return res.status(200).json(HandleResponse.Error(err, 200));
   }
 };

@@ -1,15 +1,32 @@
+const Joi = require("joi");
 const { resError, resSuccess } = require("./../../../helpers/HandleResponse");
 const { Spreadsheet } = require("./../../../config/Spreadsheet");
 
-const OutletProfiles = async () => {
-  try {
-    const spreadsheetId = "1Vh-GMekt7FxrlN8_06XRT7GMkzVg1xNJCrsjxiliUkQ";
-    const sheetName = "DATA OUTLET";
+const DataSet = {
+  year: [
+    {
+      id: 2020,
+      spreadsheetId: "1rXNbhbMoIfMgj4ngn7TlDUTdMRjdDNJWVoZhmKONS-0",
+      outlet_profiles: {
+        spreadsheetId: "1Vh-GMekt7FxrlN8_06XRT7GMkzVg1xNJCrsjxiliUkQ",
+      },
+    },
+    {
+      id: 2021,
+      spreadsheetId: "1P4ZDjXtH9qkK-zTYrEDtqUIYPdPVCJaocROOcbOl7cM",
+      outlet_profiles: {
+        spreadsheetId: "1AAirKA7W7QsOoyyHD0mqSaCFrOOcEOXP0MiUAQGSrVk",
+      },
+    },
+  ],
+};
 
+const OutletProfiles = async (spreadsheetId) => {
+  const sheetName = "DATA OUTLET";
+  try {
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
     // _________________
-
     let data = [];
 
     function convertToRupiah(angka) {
@@ -77,15 +94,26 @@ const OutletProfiles = async () => {
 };
 
 exports.ReadAll = async (req, res) => {
-  try {
-    const spreadsheetId = "1rXNbhbMoIfMgj4ngn7TlDUTdMRjdDNJWVoZhmKONS-0";
-    const sheetName = "DATA MITRA";
+  const schema = Joi.object({
+    year: Joi.number().min(2020).max(2021).required(),
+  });
 
+  const { error, value } = schema.validate(req.params);
+  if (error) {
+    return resError(res, error.details[0].message, 200);
+  }
+  const Body = value;
+  try {
+    const dataYear = DataSet.year.find((e) => e.id == Body.year);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
+
+    const { spreadsheetId, outlet_profiles } = dataYear;
+    const sheetName = "DATA MITRA";
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
     // _________________
 
-    const outletProfiles = await OutletProfiles();
+    const outletProfiles = await OutletProfiles(outlet_profiles.spreadsheetId);
 
     let data = [];
 
@@ -115,8 +143,8 @@ exports.ReadAll = async (req, res) => {
       return e;
     });
 
-    return resSuccess(res, `Keuangan -> ${sheetName}`, newData);
+    return resSuccess(res, `Bisdev -> ${sheetName}`, newData);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

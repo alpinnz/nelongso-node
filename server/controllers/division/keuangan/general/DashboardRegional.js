@@ -6,28 +6,28 @@ const {
 const { Spreadsheet } = require("./../../../../config/Spreadsheet");
 
 const DataSet = {
-  getSpreadsheets: [
+  year: [
     {
-      year: 2020,
+      id: 2020,
       month: [
         {
           id: 1,
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1CLOozYNaFobZ8Z7WywL47m6aEeEOxBaKOSUSO8EnlH0",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "12Dw0ajCqeZ0ITQpxpMNoVnLl5doCsSv16LKBzQNcWpM",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1RBwwp8xtUdG11aW9kGbAg7qBEqIvlpcAA7G-gyPJ3rs",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1zNyY6vrwQZCjAuY9p8OF8xpoFMcz4TunrLt326p3XMg",
             },
           ],
         },
@@ -36,19 +36,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1A5sUaUglUDtx07hebLOH1JeMdUTI082MoQnkmV9ei2Q",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1-jjWljuxS3cjMBj36khzuuqdfGuzNnAHqW_CnuANjuM",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "11SDI29NVuZudLyZlDGIzjlyOandJaQa0bRWHzU66Ixc",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1-RBvuEplFvstJ5F0dKHs5STYQg7W_TNfO2K51UoLDGo",
             },
           ],
         },
@@ -57,19 +57,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "19umih29pTmdWnDqrA7UUQr1GOod3uVvI0iLp-bwHTq8",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "16AYXbssM-Xad7x7GLVca83GuZbsrH-MYrt7MYoA2NHo",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "18zEel6EwlbM_lz2gP_zbS6HsA9cFtIvVMMMB0YpKLpU",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "14Jsqrv5lTRmVJYFTtEPIVPAUaVAcV8_0cU39QbsjV4E",
             },
           ],
         },
@@ -78,19 +78,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1elgquwo1ysld0U8hHRUAOVrrPbOxWU9BBeyKSRHavHM",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "14L4liqi6aTYVAyyRBBd32595n-s3eM1uRDAv0L3Z9r0",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1HGcPmXFRCAtByS4IU8BhKa63NZh1EtQStDtHNnZEC8s",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "16Ebwmxw_3XOmuyLsfxt0FnGhyoEkPqQzpL8fxdZYm9Y",
             },
           ],
         },
@@ -99,19 +99,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1xe2HkIFw3-KVfsGsEfwO8mEuMGF6ZIzlJ4fDkg5Vgpg",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "18vHiBs02Go0U0g0NOCqa-fJJXVC4fsrKy1st_1eXXTw",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1OzGJGnUcY_g-6ySJf6WP77EdqNUopSBdH_xYUSKCYFs",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "18wDW2LFWVdjoZkjx9hz8ZgXY_KucLVC6llE2m2VlvEg",
             },
           ],
         },
@@ -120,19 +120,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1xiHuLTouFyFVmvLSQc5LoGWbFoPRorTQGFuTcD0u-gY",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1BcPTC-ZWxKKYf_BF8Q4yNy3EMYOCnyQFn7HL2ALdlqM",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1SluJ2ub2PMGLa6UClYqonE2A48bVow82pylEAAzbRZ4",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1FlreqoJQvV7Snh5OVvSJl3n1Dym7DCM-3aR2-nGKqXo",
             },
           ],
         },
@@ -141,19 +141,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "110K24oOFV5cFUggc5p0ynVrVzfGuiuDB7C4qbTxJdDo",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1JwssFSmjy2_IYtvU-We21fSigmqvaMhpy-DJdmCECWc",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1cYhgdQ__-i4nc7eYL8JTLaeVaCfoMsYiDdT2E3cJC4w",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1N2eFhPCILr9dqlTJL1p-Ie3HIV9sxIj3D2kqJVvbAuk",
             },
           ],
         },
@@ -162,19 +162,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1C8u-z4_lj_xoq1Ae3qg4F4AxxtrmJpwsi89dGCqJFVQ",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1TiYY1ztFmBugzslHJs74UeMFFXg2dZ_m8HaH6uQFinQ",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1ctFf8J_OMROjZo61xC1ZGvILU_WVLpsQgUwfPSj6ikU",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1OuQ-bsC9RjYvbg6lCTCXUXl_-joO5obiZ3WXm3PzFlE",
             },
           ],
         },
@@ -183,19 +183,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1J4XAlhd3ypE0dkUiCf8IDV2x8xoYca-SrsCTf9tm4Hs",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1V8wVTJ_IxKjsGv6Fzlyl1P2UJBxOok4CmGcfzbE2g5Y",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1nEUhiS3NORsaK0x0k_oSYrbTldPgP7kbYdVZEhpnWfA",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1anH789ndiampr-Aa951x7nGR1Raqqc1ZewQAXXGweiM",
             },
           ],
         },
@@ -225,19 +225,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1wOuRUqkPeqpBggNR0o0fbPIAxfV5lRXkMFBYnY4L7q4",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1oUzV-rfntu1xWFb0FwU6tAMElHkb2IQpwPdeVmzcZFQ",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1vrhXS9XEdxGr2DebnCo2W_v2ta_F19ut-CmygfxHRDA",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1vDcbt5GIJP5VFUvdX8hyTb2GIvWil5TTWiLZIOVBBes",
             },
           ],
         },
@@ -265,7 +265,7 @@ const DataSet = {
       ],
     },
   ],
-  getSheetName: [
+  sheetName: [
     "REKAP OUTLET BULANAN",
     "REKAP HPP SUPPLIER",
     "REKAP OMZET OFFLINE & ONLINE",
@@ -298,24 +298,27 @@ exports.ReadAll = async (req, res) => {
 
   const { error, value } = schema.validate(req.params);
   if (error) {
-    return resError(res, error.details[0].message, 404);
+    return resError(res, error.details[0].message, 200);
   }
   const Body = value;
   try {
-    const dataYear = DataSet.getSpreadsheets.find((e) => e.year == Body.year);
-    if (!dataYear) return resError(res, `${Body.year} not found`, 404);
+    const dataYear = DataSet.year.find((e) => e.id == Body.year);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
+
     const dataMonth = dataYear.month.find((e) => e.id == Body.month);
-    if (!dataMonth) return resError(res, `${Body.month} not found`, 404);
+    if (!dataMonth) return resError(res, `${Body.month} not found`, 200);
+
     const dataRegional = dataMonth.regional.find((e) => e.id == Body.regional);
-    if (!dataRegional) return resError(res, `${Body.regional} not found`, 404);
-    const sheetName = DataSet.getSheetName.find((e) => e == Body.sheet);
+    if (!dataRegional) return resError(res, `${Body.regional} not found`, 200);
+
+    const sheetName = DataSet.sheetName.find((e) => e == Body.sheet);
 
     if (!sheetName) {
-      const dataSheet = DataSet.getSheetName.join(", ");
+      const dataSheet = DataSet.sheetName.join(", ");
       return resError(
         res,
         `${Body.sheet} not found ,available : ${dataSheet}`,
-        404
+        200
       );
     }
 
@@ -323,7 +326,7 @@ exports.ReadAll = async (req, res) => {
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
     // _________________
-    if (!spreadsheetData) return resError(res, "spreadsheetData null", 404);
+    if (!spreadsheetData) return resError(res, "spreadsheetData null", 200);
     let data = [];
     const titleKey = (text) => {
       const string = `${text}`;
@@ -863,8 +866,12 @@ exports.ReadAll = async (req, res) => {
     } else {
       return resSuccess(res, `Keuangan -> ${sheetName}`, null);
     }
-    return resSuccess(res, `Keuangan -> ${sheetName}`, data);
+    return resSuccess(
+      res,
+      `Keuangan -> ${sheetName} Month -> ${Body.month} Regional -> ${Body.regional}`,
+      data
+    );
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

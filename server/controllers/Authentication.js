@@ -19,12 +19,12 @@ exports.register = async (req, res, next) => {
   try {
     const validEmail = await Accounts.findOne({ email: body.email });
     if (validEmail) {
-      return resError(res, "Email is already", 404);
+      return resError(res, "Email is already", 200);
     }
 
     const role = await Roles.findOne({ name: "user" });
     if (!role) {
-      return resError(res, "Role not found", 404);
+      return resError(res, "Role not found", 200);
     }
     const hashPassword = await HashPassword(body.password);
 
@@ -44,7 +44,7 @@ exports.register = async (req, res, next) => {
     };
     return resSuccess(res, "Register", data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };
 
@@ -56,29 +56,29 @@ exports.login = async (req, res, next) => {
 
     const account = await Accounts.findOne({ email: body.email });
     if (!account) {
-      return resError(res, "Useranme or password is incorrect", 404);
+      return resError(res, "Useranme or password is incorrect", 200);
     }
     const passIsValid = await VerifyHashPassword(
       body.password,
       account.password
     );
     if (!passIsValid) {
-      return resError(res, "Useranme or password is incorrect", 404);
+      return resError(res, "Useranme or password is incorrect", 200);
     }
 
     const role = await Roles.findById(account.id_role);
     if (!role) {
-      return resError(res, "Useranme or password is incorrect", 404);
+      return resError(res, "Useranme or password is incorrect", 200);
     }
 
     const accessToken = await JwtAccessToken(account);
     if (!accessToken) {
-      return resError(res, "Token Error", 404);
+      return resError(res, "Token Error", 200);
     }
 
     const refreshToken = await JwtRefreshTokenCreate(account, ipAddress);
     if (!refreshToken) {
-      return resError(res, "Refresh Token Error", 404);
+      return resError(res, "Refresh Token Error", 200);
     }
 
     const setTokenCookie = SetTokenCookie(res, refreshToken);
@@ -90,7 +90,7 @@ exports.login = async (req, res, next) => {
     };
     return resSuccess(res, "Login", data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };
 
@@ -98,25 +98,25 @@ exports.refreshToken = async (req, res, next) => {
   try {
     const ipAddress = req.ip;
     const authorization = req.header("authorization").split(" ")[1];
-    if (!authorization) return resError(res, "Failed authorization", 404);
+    if (!authorization) return resError(res, "Failed authorization", 200);
 
     const refreshToken = await RefreshTokens.findOne({
       token: authorization,
     });
 
     if (!refreshToken || !refreshToken.isActive) {
-      return resError(res, "Invalid token", 404);
+      return resError(res, "Invalid token", 200);
     }
 
     const decode = await VerifyRefreshToken(refreshToken.token);
-    if (!decode) return resError(res, "Invalid token", 404);
+    if (!decode) return resError(res, "Invalid token", 200);
 
     const account = await Accounts.findById(decode.id);
-    if (!account) return resError(res, "Failed account not found", 404);
+    if (!account) return resError(res, "Failed account not found", 200);
 
     const role = await Roles.findById(account.id_role);
     if (!role) {
-      return resError(res, "Role account not found", 404);
+      return resError(res, "Role account not found", 200);
     }
 
     const newRefreshToken = await JwtRefreshTokenReplaced(
@@ -125,12 +125,12 @@ exports.refreshToken = async (req, res, next) => {
       refreshToken
     );
     if (!newRefreshToken) {
-      return resError(res, "Refresh Token Error", 404);
+      return resError(res, "Refresh Token Error", 200);
     }
 
     const newAccessToken = await JwtAccessToken(account);
     if (!newAccessToken) {
-      return resError(res, "Token Error", 404);
+      return resError(res, "Token Error", 200);
     }
 
     const setTokenCookie = SetTokenCookie(res, newRefreshToken);
@@ -143,7 +143,7 @@ exports.refreshToken = async (req, res, next) => {
     };
     return resSuccess(res, "Refresh Token", data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };
 
@@ -151,21 +151,21 @@ exports.logout = async (req, res, next) => {
   try {
     const ipAddress = req.ip;
     const authorization = req.header("authorization").split(" ")[1];
-    if (!authorization) return resError(res, "Failed authorization", 404);
+    if (!authorization) return resError(res, "Failed authorization", 200);
 
     const refreshToken = await RefreshTokens.findOne({
       token: authorization,
     });
     if (!refreshToken || !refreshToken.isActive) {
-      return resError(res, "Invalid token", 404);
+      return resError(res, "Invalid token", 200);
     }
 
     const revokeToken = await RevokeToken(ipAddress, refreshToken);
-    if (!revokeToken) return resError(res, "Invalid revoke token", 404);
+    if (!revokeToken) return resError(res, "Invalid revoke token", 200);
 
     return resSuccess(res, "Revoke token");
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };
 
@@ -174,23 +174,23 @@ exports.forgotPassword = async (req, res, next) => {
   try {
     const account = await Accounts.findOne({ email });
     if (!account) {
-      return resError(res, "Account with this email does not exists.", 404);
+      return resError(res, "Account with this email does not exists.", 200);
     }
     const token = await JwtResetPasswordToken(account);
     if (!token) {
-      return resError(res, "Token failed", 404);
+      return resError(res, "Token failed", 200);
     }
     const sendEmail = await sendForgotPassword("alpinnz@gmail.com", token);
     if (!sendEmail) {
-      return resError(res, "Send token error", 404);
+      return resError(res, "Send token error", 200);
     }
 
     const update = await account.updateOne({ resetLink: token });
     if (!update) {
-      return resError(res, "Reset password link error", 404);
+      return resError(res, "Reset password link error", 200);
     }
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
   return resSuccess(res, "Email has been sent, follow the intructions");
 };
@@ -199,13 +199,13 @@ exports.getResetPassword = async (req, res, next) => {
   const { token } = req.params;
   try {
     const decode = await VerifyResetPasswordToken(token);
-    if (!decode) return resError(res, "Invalid token", 404);
+    if (!decode) return resError(res, "Invalid token", 200);
 
     const account = await Accounts.findOne({
       _id: ObjectId(decode.id),
       resetLink: token,
     });
-    if (!account) return resError(res, "Failed account not found", 404);
+    if (!account) return resError(res, "Failed account not found", 200);
 
     return res.type(".html").send(`<!DOCTYPE html>
 <html lang="en">
@@ -283,13 +283,13 @@ exports.postResetPassword = async (req, res, next) => {
   const { password } = req.body;
   try {
     const decode = await VerifyResetPasswordToken(token);
-    if (!decode) return resError(res, "Invalid token", 404);
+    if (!decode) return resError(res, "Invalid token", 200);
 
     const account = await Accounts.findOne({
       _id: ObjectId(decode.id),
       resetLink: token,
     });
-    if (!account) return resError(res, "Failed account not found", 404);
+    if (!account) return resError(res, "Failed account not found", 200);
 
     const hashPassword = await HashPassword(password);
 
@@ -297,7 +297,7 @@ exports.postResetPassword = async (req, res, next) => {
       resetLink: "",
       password: hashPassword,
     });
-    if (!update) return resError(res, "Reset password error", 404);
+    if (!update) return resError(res, "Reset password error", 200);
     return res.type(".html").send(`<!DOCTYPE html>
 <html lang="en">
   <head>

@@ -4,7 +4,17 @@ const { Roles } = require("./../models");
 const initial = () => {
   Roles.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
-      const roles = ["user", "kasir", "admin"];
+      const roles = [
+        "admin",
+        "owner",
+        "co-bisdev",
+        "co-finance",
+        "co-marketing",
+        "co-hrd",
+        "co-operasional",
+        "co-produksi",
+        "user",
+      ];
       roles.forEach((item) => {
         new Roles({
           name: `${item}`,
@@ -34,9 +44,7 @@ exports.connect = async () => {
   await mongoose
     .connect(url, options)
     .then(() => {
-      console.log(
-        `Successfully connected to ${process.env.DB_NAME}`
-      );
+      console.log(`Successfully connected to ${process.env.DB_NAME}`);
       initial();
     })
     .catch((err) => {

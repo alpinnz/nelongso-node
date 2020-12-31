@@ -6,45 +6,45 @@ const {
 const { Spreadsheet } = require("./../../../../config/Spreadsheet");
 
 const DataSet = {
-  getSpreadsheets: [
+  year: [
     {
-      year: 2020,
+      id: 2020,
       month: [
         {
           id: 1,
-          spreadsheetId: null,
+          spreadsheetId: "1li4Gz61V2YjsPDA3hxua5VWAiyCFHOwtj41zscYJ1i8",
         },
         {
           id: 2,
-          spreadsheetId: null,
+          spreadsheetId: "1DuXa8muVWF5Jsah8JEVTdWDneDezShfcdEEeq75cyGA",
         },
         {
           id: 3,
-          spreadsheetId: null,
+          spreadsheetId: "13oi-VcpTYPcGv0vn-234eqdrNhIqL6FAr9RzbbpE16A",
         },
         {
           id: 4,
-          spreadsheetId: null,
+          spreadsheetId: "1KA-R_8nhJXjGq2Gt0XHKfrSsSFlA4g1mDSUObktd3RA",
         },
         {
           id: 5,
-          spreadsheetId: null,
+          spreadsheetId: "16kfJd0ty_wh-K7piYbxKW6ODb0uODl8kcCd2esyWHBw",
         },
         {
           id: 6,
-          spreadsheetId: null,
+          spreadsheetId: "1INUtwugmpKD9R1NedAin_fXmLJp7pliXdXFhe79lFy0",
         },
         {
           id: 7,
-          spreadsheetId: null,
+          spreadsheetId: "1E5vHAp7iwwkw6omVvrnNC3X8qbVLMKHkc-IbD6KPyZw",
         },
         {
           id: 8,
-          spreadsheetId: null,
+          spreadsheetId: "1hIJf9N52P0jJoSp6vbjdbdM6ByM58y_ZkasCkNTHlc4",
         },
         {
           id: 9,
-          spreadsheetId: null,
+          spreadsheetId: "1Wukeg3-iqNR6BHPJMeSZxjwaXoAGNiaVIexyqy7OMSE",
         },
         {
           id: 10,
@@ -60,8 +60,61 @@ const DataSet = {
         },
       ],
     },
+    {
+      id: 2021,
+      month: [
+        {
+          id: 1,
+          spreadsheetId: "11tld-vIewcb6dAeJDINv9ZQygOPYD-gA83lph0qVUTs",
+        },
+        {
+          id: 2,
+          spreadsheetId: "12f6AVX0jimun4_uk11fmhiVZCXyB7gGmLH6g7miAXjs",
+        },
+        {
+          id: 3,
+          spreadsheetId: "1OujSSx38tDX4lTqyaG5KQkPcfIKITeegSlqR69S8Bf0",
+        },
+        {
+          id: 4,
+          spreadsheetId: "13p9NoH2Z_Hw_Z6f797SqmZpeACq7zlAcY4X9MaJXsNI",
+        },
+        {
+          id: 5,
+          spreadsheetId: "1Ie3SUL9VEPjefgRBAJERQztizL3pdwm425x4yoPPJGc",
+        },
+        {
+          id: 6,
+          spreadsheetId: "1iPDUhr9zodDvhdJnvv5OyIev4MSUTEY9rzMHyUcZf_g",
+        },
+        {
+          id: 7,
+          spreadsheetId: "1ImipK-eWkKu-zrCbbu3I26l0cCK8yYnMxmyTHTqJRNA",
+        },
+        {
+          id: 8,
+          spreadsheetId: "1myAO9XWrrkJE2FUvQ1GlFyfVK83yYGCyOLV9vnNVMvk",
+        },
+        {
+          id: 9,
+          spreadsheetId: "1Pu8cP9XPZbegve-I1LVR2_p_eA2n6F0HFCQSeLAQkeo",
+        },
+        {
+          id: 10,
+          spreadsheetId: "1CbJ-FDFnB2XM_GNmpskjju4Wiaty-hOdKkUIxQaBF_w",
+        },
+        {
+          id: 11,
+          spreadsheetId: "1nRkrEXjAxz5i9okjoH7UymD9AMldPWQYzsmMntpK97k",
+        },
+        {
+          id: 12,
+          spreadsheetId: "1jjlT8pTferEnJ72ZoFtf4h-ADAV8QYWZjlNWAzf2Czs",
+        },
+      ],
+    },
   ],
-  getSheetName: [
+  sheetName: [
     "KETERCAPAIAN OMZET",
     "KETERCAPAIAN KUNJUNGAN",
     "KETERCAPAIAN BASKET SIZE",
@@ -108,22 +161,22 @@ exports.ReadAll = async (req, res) => {
 
   const { error, value } = schema.validate(req.params);
   if (error) {
-    return resError(res, error.details[0].message, 404);
+    return resError(res, error.details[0].message, 200);
   }
   const Body = value;
   try {
-    const dataYear = DataSet.getSpreadsheets.find((e) => e.year == Body.year);
-    if (!dataYear) return resError(res, `${Body.year} not found`, 404);
+    const dataYear = DataSet.year.find((e) => e.id == Body.year);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
     const dataMonth = dataYear.month.find((e) => e.id == Body.month);
-    if (!dataMonth) return resError(res, `${Body.month} not found`, 404);
-    const sheetName = DataSet.getSheetName.find((e) => e == Body.sheet);
+    if (!dataMonth) return resError(res, `${Body.month} not found`, 200);
+    const sheetName = DataSet.sheetName.find((e) => e == Body.sheet);
 
     if (!sheetName) {
-      const dataSheet = DataSet.getSheetName.join(", ");
+      const dataSheet = DataSet.sheetName.join(", ");
       return resError(
         res,
         `${Body.sheet} not found ,available : ${dataSheet}`,
-        404
+        200
       );
     }
 
@@ -131,7 +184,7 @@ exports.ReadAll = async (req, res) => {
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
     if (!spreadsheetData) {
-      return resError(res, `spreadsheetData not found`, 404);
+      return resError(res, `spreadsheetData not found`, 200);
     }
 
     // _________________
@@ -226,6 +279,6 @@ exports.ReadAll = async (req, res) => {
 
     return resSuccess(res, `marketing -> admin -> ${sheetName}`, data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

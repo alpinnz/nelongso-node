@@ -1,11 +1,33 @@
+const Joi = require("joi");
 const { resError, resSuccess } = require("./../../../helpers/HandleResponse");
 const { Spreadsheet } = require("./../../../config/Spreadsheet");
 
+const DataSet = {
+  year: [
+    {
+      id: 2020,
+      spreadsheetId: "1aeL8_r9cQ9wdlNp660Ld2LeFD_SpD4lApmmdeN2eNCg",
+    },
+  ],
+};
+
 exports.ReadAll = async (req, res) => {
+  const schema = Joi.object({
+    year: Joi.number().min(2020).max(2021).required(),
+  });
+
+  const { error, value } = schema.validate(req.params);
+  if (error) {
+    return resError(res, error.details[0].message, 200);
+  }
+  const Body = value;
   try {
-    const spreadsheetId = "1aeL8_r9cQ9wdlNp660Ld2LeFD_SpD4lApmmdeN2eNCg";
+    const dataYear = DataSet.year.find((e) => e.id == Body.year);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
+
     const sheetName = "DATA OUTLET";
 
+    const { spreadsheetId } = dataYear;
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
     // _________________
@@ -50,7 +72,7 @@ exports.ReadAll = async (req, res) => {
           // title
           const titleTemp = child[0].replace(" ", "") + child.substring(1);
           const titleTemp2 = titleTemp.replace(/ /g, "_").toLowerCase();
-          const title =  titleTemp2;
+          const title = titleTemp2;
 
           const strValue = `${e[index]}`;
           // value
@@ -73,6 +95,6 @@ exports.ReadAll = async (req, res) => {
 
     return resSuccess(res, `Keuangan -> ${sheetName}`, data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

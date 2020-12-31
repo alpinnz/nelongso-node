@@ -1,11 +1,36 @@
+const Joi = require("joi");
 const { resError, resSuccess } = require("./../../../helpers/HandleResponse");
 const { Spreadsheet } = require("./../../../config/Spreadsheet");
 
-exports.ReadAll = async (req, res) => {
-  try {
-    const spreadsheetId = "1Vh-GMekt7FxrlN8_06XRT7GMkzVg1xNJCrsjxiliUkQ";
-    const sheetName = "DATA OUTLET";
+const DataSet = {
+  year: [
+    {
+      id: 2020,
+      spreadsheetId: "1Vh-GMekt7FxrlN8_06XRT7GMkzVg1xNJCrsjxiliUkQ",
+    },
+    {
+      id: 2021,
+      spreadsheetId: "1AAirKA7W7QsOoyyHD0mqSaCFrOOcEOXP0MiUAQGSrVk",
+    },
+  ],
+};
 
+exports.ReadAll = async (req, res) => {
+  const schema = Joi.object({
+    year: Joi.number().min(2020).max(2021).required(),
+  });
+
+  const { error, value } = schema.validate(req.params);
+  if (error) {
+    return resError(res, error.details[0].message, 200);
+  }
+  const Body = value;
+  try {
+    const dataYear = DataSet.year.find((e) => e.id == Body.year);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
+
+    const { spreadsheetId } = dataYear;
+    const sheetName = "DATA OUTLET";
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
     // _________________
@@ -39,9 +64,7 @@ exports.ReadAll = async (req, res) => {
 
       return string2;
     }
-    function isNormalInteger(str) {
-      return /^\+?(0|[1-9]\d*)$/.test(str);
-    }
+
     spreadsheetData.forEach((e, i) => {
       if (i > 6) {
         let row = {};
@@ -57,8 +80,6 @@ exports.ReadAll = async (req, res) => {
             row[title] = convertToRupiah(convertToAngka(strValue));
           } else if (strValue.includes("%")) {
             row[title] = convertToFloat(strValue);
-          } else if (isNormalInteger(strValue)) {
-            row[title] = parseInt(strValue);
           } else {
             row[title] = e[index] || "";
           }
@@ -70,8 +91,8 @@ exports.ReadAll = async (req, res) => {
       }
     });
 
-    return resSuccess(res, `Keuangan -> ${sheetName}`, data);
+    return resSuccess(res, `Bisdev -> ${sheetName}`, data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

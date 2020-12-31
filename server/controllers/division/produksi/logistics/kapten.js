@@ -276,18 +276,18 @@ exports.ReadAll = async (req, res) => {
 
   const { error, value } = schema.validate(req.params);
   if (error) {
-    return resError(res, error.details[0].message, 404);
+    return resError(res, error.details[0].message, 200);
   }
   const Body = value;
   try {
     const dataYear = DataSet.year.find((e) => e.id == Body.year);
-    if (!dataYear) return resError(res, `${Body.year} not found`, 404);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
 
     const dataRegional = dataYear.regional.find((e) => e.id == Body.regional);
-    if (!dataRegional) return resError(res, `${Body.regional} not found`, 404);
+    if (!dataRegional) return resError(res, `${Body.regional} not found`, 200);
 
     const dataOutlet = dataRegional.outlet.find((e) => e.id == Body.outlet);
-    if (!dataOutlet) return resError(res, `${Body.outlet} not found`, 404);
+    if (!dataOutlet) return resError(res, `${Body.outlet} not found`, 200);
 
     const sheetName = DataSet.sheetName.find((e) => e == Body.sheet);
     if (!sheetName) {
@@ -295,7 +295,7 @@ exports.ReadAll = async (req, res) => {
       return resError(
         res,
         `${Body.sheet} not found ,available : ${dataSheet}`,
-        404
+        200
       );
     }
 
@@ -399,6 +399,6 @@ exports.ReadAll = async (req, res) => {
 
     return resSuccess(res, `Produksi - Kapten -> ${sheetName}`, data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };
