@@ -6,28 +6,28 @@ const {
 const { Spreadsheet } = require("./../../../../config/Spreadsheet");
 
 const DataSet = {
-  getSpreadsheets: [
+  year: [
     {
-      year: 2020,
+      id: 2020,
       month: [
         {
           id: 1,
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1CLOozYNaFobZ8Z7WywL47m6aEeEOxBaKOSUSO8EnlH0",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "12Dw0ajCqeZ0ITQpxpMNoVnLl5doCsSv16LKBzQNcWpM",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1RBwwp8xtUdG11aW9kGbAg7qBEqIvlpcAA7G-gyPJ3rs",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1zNyY6vrwQZCjAuY9p8OF8xpoFMcz4TunrLt326p3XMg",
             },
           ],
         },
@@ -36,19 +36,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1A5sUaUglUDtx07hebLOH1JeMdUTI082MoQnkmV9ei2Q",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1-jjWljuxS3cjMBj36khzuuqdfGuzNnAHqW_CnuANjuM",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "11SDI29NVuZudLyZlDGIzjlyOandJaQa0bRWHzU66Ixc",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1-RBvuEplFvstJ5F0dKHs5STYQg7W_TNfO2K51UoLDGo",
             },
           ],
         },
@@ -57,19 +57,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "19umih29pTmdWnDqrA7UUQr1GOod3uVvI0iLp-bwHTq8",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "16AYXbssM-Xad7x7GLVca83GuZbsrH-MYrt7MYoA2NHo",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "18zEel6EwlbM_lz2gP_zbS6HsA9cFtIvVMMMB0YpKLpU",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "14Jsqrv5lTRmVJYFTtEPIVPAUaVAcV8_0cU39QbsjV4E",
             },
           ],
         },
@@ -78,19 +78,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1elgquwo1ysld0U8hHRUAOVrrPbOxWU9BBeyKSRHavHM",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "14L4liqi6aTYVAyyRBBd32595n-s3eM1uRDAv0L3Z9r0",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1HGcPmXFRCAtByS4IU8BhKa63NZh1EtQStDtHNnZEC8s",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "16Ebwmxw_3XOmuyLsfxt0FnGhyoEkPqQzpL8fxdZYm9Y",
             },
           ],
         },
@@ -99,19 +99,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1xe2HkIFw3-KVfsGsEfwO8mEuMGF6ZIzlJ4fDkg5Vgpg",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "18vHiBs02Go0U0g0NOCqa-fJJXVC4fsrKy1st_1eXXTw",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1OzGJGnUcY_g-6ySJf6WP77EdqNUopSBdH_xYUSKCYFs",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "18wDW2LFWVdjoZkjx9hz8ZgXY_KucLVC6llE2m2VlvEg",
             },
           ],
         },
@@ -120,19 +120,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1xiHuLTouFyFVmvLSQc5LoGWbFoPRorTQGFuTcD0u-gY",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1BcPTC-ZWxKKYf_BF8Q4yNy3EMYOCnyQFn7HL2ALdlqM",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1SluJ2ub2PMGLa6UClYqonE2A48bVow82pylEAAzbRZ4",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1FlreqoJQvV7Snh5OVvSJl3n1Dym7DCM-3aR2-nGKqXo",
             },
           ],
         },
@@ -141,19 +141,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "110K24oOFV5cFUggc5p0ynVrVzfGuiuDB7C4qbTxJdDo",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1JwssFSmjy2_IYtvU-We21fSigmqvaMhpy-DJdmCECWc",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1cYhgdQ__-i4nc7eYL8JTLaeVaCfoMsYiDdT2E3cJC4w",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1N2eFhPCILr9dqlTJL1p-Ie3HIV9sxIj3D2kqJVvbAuk",
             },
           ],
         },
@@ -162,19 +162,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1C8u-z4_lj_xoq1Ae3qg4F4AxxtrmJpwsi89dGCqJFVQ",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1TiYY1ztFmBugzslHJs74UeMFFXg2dZ_m8HaH6uQFinQ",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1ctFf8J_OMROjZo61xC1ZGvILU_WVLpsQgUwfPSj6ikU",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1OuQ-bsC9RjYvbg6lCTCXUXl_-joO5obiZ3WXm3PzFlE",
             },
           ],
         },
@@ -183,19 +183,19 @@ const DataSet = {
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "1J4XAlhd3ypE0dkUiCf8IDV2x8xoYca-SrsCTf9tm4Hs",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1V8wVTJ_IxKjsGv6Fzlyl1P2UJBxOok4CmGcfzbE2g5Y",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1nEUhiS3NORsaK0x0k_oSYrbTldPgP7kbYdVZEhpnWfA",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1anH789ndiampr-Aa951x7nGR1Raqqc1ZewQAXXGweiM",
             },
           ],
         },
@@ -220,32 +220,52 @@ const DataSet = {
             },
           ],
         },
-
+        {
+          id: 11,
+          regional: [
+            {
+              id: "jabar",
+              spreadsheetId: "1wOuRUqkPeqpBggNR0o0fbPIAxfV5lRXkMFBYnY4L7q4",
+            },
+            {
+              id: "jatim1",
+              spreadsheetId: "1oUzV-rfntu1xWFb0FwU6tAMElHkb2IQpwPdeVmzcZFQ",
+            },
+            {
+              id: "jatim2",
+              spreadsheetId: "1vrhXS9XEdxGr2DebnCo2W_v2ta_F19ut-CmygfxHRDA",
+            },
+            {
+              id: "jatim3",
+              spreadsheetId: "1vDcbt5GIJP5VFUvdX8hyTb2GIvWil5TTWiLZIOVBBes",
+            },
+          ],
+        },
         {
           id: 12,
           regional: [
             {
               id: "jabar",
-              spreadsheetId: null,
+              spreadsheetId: "14WNFwBnbNEIF20oFvy8ILfy0_b9TjIpOJmmrHBTYIH8",
             },
             {
               id: "jatim1",
-              spreadsheetId: null,
+              spreadsheetId: "1pVFZvaTQSPrebI-xEeEGqw_c9HO9v1p3dQqJyBDbS3c",
             },
             {
               id: "jatim2",
-              spreadsheetId: null,
+              spreadsheetId: "1zIzo5XY-L1QOXLXp3Ur2DnHKvj_DBCxfUuzlqJOEews",
             },
             {
               id: "jatim3",
-              spreadsheetId: null,
+              spreadsheetId: "1yuNM6dkT9jn5BH02ewrHEPVARw1E_GFZq7K4WZoKFPk",
             },
           ],
         },
       ],
     },
   ],
-  getSheetName: [
+  sheetName: [
     "REKAP OUTLET BULANAN",
     "REKAP HPP SUPPLIER",
     "REKAP OMZET OFFLINE & ONLINE",
@@ -257,6 +277,17 @@ const DataSet = {
   ],
 };
 
+function convertToFloat(rupiah) {
+  let string = `${rupiah}`;
+  let string1 = string.replace(/[^,0-9]/g, "");
+  let string2 = parseFloat(string1.replace(/,/g, ".")).toFixed(2);
+  if (string2 == "NaN") {
+    return "0.00";
+  } else {
+    return string2;
+  }
+}
+
 exports.ReadAll = async (req, res) => {
   const schema = Joi.object({
     regional: Joi.string().required(),
@@ -267,24 +298,27 @@ exports.ReadAll = async (req, res) => {
 
   const { error, value } = schema.validate(req.params);
   if (error) {
-    return resError(res, error.details[0].message, 404);
+    return resError(res, error.details[0].message, 200);
   }
   const Body = value;
   try {
-    const dataYear = DataSet.getSpreadsheets.find((e) => e.year == Body.year);
-    if (!dataYear) return resError(res, `${Body.year} not found`, 404);
+    const dataYear = DataSet.year.find((e) => e.id == Body.year);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
+
     const dataMonth = dataYear.month.find((e) => e.id == Body.month);
-    if (!dataMonth) return resError(res, `${Body.month} not found`, 404);
+    if (!dataMonth) return resError(res, `${Body.month} not found`, 200);
+
     const dataRegional = dataMonth.regional.find((e) => e.id == Body.regional);
-    if (!dataRegional) return resError(res, `${Body.regional} not found`, 404);
-    const sheetName = DataSet.getSheetName.find((e) => e == Body.sheet);
+    if (!dataRegional) return resError(res, `${Body.regional} not found`, 200);
+
+    const sheetName = DataSet.sheetName.find((e) => e == Body.sheet);
 
     if (!sheetName) {
-      const dataSheet = DataSet.getSheetName.join(", ");
+      const dataSheet = DataSet.sheetName.join(", ");
       return resError(
         res,
         `${Body.sheet} not found ,available : ${dataSheet}`,
-        404
+        200
       );
     }
 
@@ -292,7 +326,7 @@ exports.ReadAll = async (req, res) => {
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
     // _________________
-    if (!spreadsheetData) return resError(res, "spreadsheetData null", 404);
+    if (!spreadsheetData) return resError(res, "spreadsheetData null", 200);
     let data = [];
     const titleKey = (text) => {
       const string = `${text}`;
@@ -323,7 +357,7 @@ exports.ReadAll = async (req, res) => {
         "gudang",
         "beli_diluar",
       ];
-      const lineHeader = 6;
+      const lineHeader = 7;
       spreadsheetData.forEach((e, i) => {
         if (i > lineHeader) {
           let row = {};
@@ -335,7 +369,7 @@ exports.ReadAll = async (req, res) => {
             const title = titleKey(child);
             columns.forEach((item) => {
               index++;
-              valueColumns[item] = e[index] || "";
+              valueColumns[item] = convertToFloat(e[index]) || "0.0";
             });
             data_outlet.push({
               nama: title,
@@ -348,6 +382,24 @@ exports.ReadAll = async (req, res) => {
           i = lineHeader + 1;
         }
       });
+      const temp_data = data[0]["outlets"].map((e, i) => {
+        return {
+          id: `${i + 1}`,
+          nama_outlet: e["nama"],
+          data: [],
+        };
+      });
+
+      for (let i = 0; i < data.length; i++) {
+        for (let x = 0; x < data[i]["outlets"].length; x++) {
+          let res = data[i]["outlets"][x];
+          let index = temp_data.findIndex((e) => e.nama_outlet == res["nama"]);
+          res["data"]["id"] = data[i]["tanggal"];
+          temp_data[index]["data"].push(res["data"]);
+        }
+      }
+
+      data = temp_data;
     } else if (sheetName == "REKAP HPP SUPPLIER") {
       let outlets = [];
       spreadsheetData[5].forEach((e, i) => {
@@ -375,7 +427,7 @@ exports.ReadAll = async (req, res) => {
               // valueColumns[titleSub] = e[index] || "";
               valueItems.push({
                 nama: titleSub,
-                nominal: e[index] || "",
+                nominal: convertToFloat(e[index]) || "0.0",
               });
             });
             data_outlet.push({
@@ -389,6 +441,28 @@ exports.ReadAll = async (req, res) => {
           i = lineHeader + 1;
         }
       });
+
+      const temp_data = data[0]["outlets"].map((e, i) => {
+        return {
+          id: `${i + 1}`,
+          nama_outlet: e["nama"],
+          data: [],
+        };
+      });
+
+      for (let i = 0; i < data.length; i++) {
+        for (let x = 0; x < data[i]["outlets"].length; x++) {
+          let res = data[i]["outlets"][x];
+          let index = temp_data.findIndex((e) => e.nama_outlet == res["nama"]);
+          // res["data"]["id"] = data[i]["tanggal"];
+          temp_data[index]["data"].push({
+            id: data[i]["tanggal"],
+            supplier: res["data"],
+          });
+        }
+      }
+
+      data = temp_data;
     } else if (sheetName == "REKAP OMZET OFFLINE & ONLINE") {
       let outlets = [];
       spreadsheetData[6].forEach((e, i) => {
@@ -409,7 +483,7 @@ exports.ReadAll = async (req, res) => {
             const title = titleKey(child);
             columns.forEach((item) => {
               index++;
-              valueColumns[item] = e[index] || "";
+              valueColumns[item] = convertToFloat(e[index]) || "0.0";
             });
             data_outlet.push({
               nama: title,
@@ -422,6 +496,25 @@ exports.ReadAll = async (req, res) => {
           i = lineHeader + 1;
         }
       });
+
+      const temp_data = data[0]["outlets"].map((e, i) => {
+        return {
+          id: `${i + 1}`,
+          nama_outlet: e["nama"],
+          data: [],
+        };
+      });
+
+      for (let i = 0; i < data.length; i++) {
+        for (let x = 0; x < data[i]["outlets"].length; x++) {
+          let res = data[i]["outlets"][x];
+          let index = temp_data.findIndex((e) => e.nama_outlet == res["nama"]);
+          res["data"]["id"] = data[i]["tanggal"];
+          temp_data[index]["data"].push(res["data"]);
+        }
+      }
+
+      data = temp_data;
     } else if (sheetName == "REKAP KUNJUNGAN") {
       const newSpreadsheetData = spreadsheetData.map((e) => e.slice(1));
       let outlets = [];
@@ -450,7 +543,7 @@ exports.ReadAll = async (req, res) => {
             const title = titleKey(child);
             columns.forEach((item) => {
               index++;
-              valueColumns[item] = e[index] || "";
+              valueColumns[item] = convertToFloat(e[index]) || "0.0";
             });
             data_outlet.push({
               nama: title,
@@ -463,6 +556,25 @@ exports.ReadAll = async (req, res) => {
           i = lineHeader + 1;
         }
       });
+
+      const temp_data = data[0]["outlets"].map((e, i) => {
+        return {
+          id: `${i + 1}`,
+          nama_outlet: e["nama"],
+          data: [],
+        };
+      });
+
+      for (let i = 0; i < data.length; i++) {
+        for (let x = 0; x < data[i]["outlets"].length; x++) {
+          let res = data[i]["outlets"][x];
+          let index = temp_data.findIndex((e) => e.nama_outlet == res["nama"]);
+          res["data"]["id"] = data[i]["tanggal"];
+          temp_data[index]["data"].push(res["data"]);
+        }
+      }
+
+      data = temp_data;
     } else if (sheetName == "REKAP OMZET PER SHIFT") {
       const newSpreadsheetData = spreadsheetData.map((e) => e.slice(1));
       let outlets = [];
@@ -491,7 +603,7 @@ exports.ReadAll = async (req, res) => {
             const title = titleKey(child);
             columns.forEach((item) => {
               index++;
-              valueColumns[item] = e[index] || "";
+              valueColumns[item] = convertToFloat(e[index]) || "0.0";
             });
             data_outlet.push({
               nama: title,
@@ -504,6 +616,25 @@ exports.ReadAll = async (req, res) => {
           i = lineHeader + 1;
         }
       });
+
+      const temp_data = data[0]["outlets"].map((e, i) => {
+        return {
+          id: `${i + 1}`,
+          nama_outlet: e["nama"],
+          data: [],
+        };
+      });
+
+      for (let i = 0; i < data.length; i++) {
+        for (let x = 0; x < data[i]["outlets"].length; x++) {
+          let res = data[i]["outlets"][x];
+          let index = temp_data.findIndex((e) => e.nama_outlet == res["nama"]);
+          res["data"]["id"] = data[i]["tanggal"];
+          temp_data[index]["data"].push(res["data"]);
+        }
+      }
+
+      data = temp_data;
     } else if (sheetName == "PERSENTASE KUNJUNGAN") {
       const header_line = 8;
 
@@ -567,7 +698,6 @@ exports.ReadAll = async (req, res) => {
 
           // var outlets = Outlets(Body.regional);
           i_outlet = 0;
-          outlets.push("total");
 
           const outletXcolums = outlets.length * columns.length;
           const length = outletXcolums + 1;
@@ -587,88 +717,110 @@ exports.ReadAll = async (req, res) => {
               data_outlet.push({
                 nama: outlets[i_outlet],
                 data: model(
-                  e[i - 10],
-                  e[i - 9],
-                  e[i - 8],
-                  e[i - 7],
-                  e[i - 6],
-                  e[i - 5],
-                  e[i - 4],
-                  e[i - 3],
-                  e[i - 2],
-                  e[i - 1],
-                  e[i]
+                  convertToFloat(e[i - 10]),
+                  convertToFloat(e[i - 9]),
+                  convertToFloat(e[i - 8]),
+                  convertToFloat(e[i - 7]),
+                  convertToFloat(e[i - 6]),
+                  convertToFloat(e[i - 5]),
+                  convertToFloat(e[i - 4]),
+                  convertToFloat(e[i - 3]),
+                  convertToFloat(e[i - 2]),
+                  convertToFloat(e[i - 1]),
+                  convertToFloat(e[i])
                 ),
               });
 
               i_outlet++;
             }
           }
-          cols["outlet"] = data_outlet;
+          cols["outlets"] = data_outlet;
           data.push(cols);
         }
       });
-    } else if (sheetName == "REKAP OPERASIONAL") {
-      const header_line = 8;
 
+      const temp_data = data[0]["outlets"].map((e, i) => {
+        return {
+          id: `${i + 1}`,
+          nama_outlet: e["nama"],
+          data: [],
+        };
+      });
+
+      for (let i = 0; i < data.length; i++) {
+        for (let x = 0; x < data[i]["outlets"].length; x++) {
+          let res = data[i]["outlets"][x];
+          let index = temp_data.findIndex((e) => e.nama_outlet == res["nama"]);
+
+          res["data"]["id"] = data[i]["tanggal"];
+          temp_data[index]["data"].push(res["data"]);
+        }
+      }
+
+      data = temp_data;
+    } else if (sheetName == "REKAP OPERASIONAL") {
+      const header_line = 7;
+      let id = 1;
       spreadsheetData.forEach((e, i) => {
         const row = {};
-        row["outlet"] = e[0];
+        row["id"] = `${id}`;
+        row["nama_outlet"] = e[0];
         row["operasional"] = {
-          bensin: e[1],
-          listrik: e[2],
-          pdam: e[3],
-          wifi: e[4],
-          sedot_lembah: e[5],
-          sewa_mess: e[6],
-          sedekah: e[7],
+          bensin: convertToFloat(e[1]) || "0.0",
+          listrik: convertToFloat(e[2]) || "0.0",
+          pdam: convertToFloat(e[3]) || "0.0",
+          wifi: convertToFloat(e[4]) || "0.0",
+          sedot_lembah: convertToFloat(e[5]) || "0.0",
+          sewa_mess: convertToFloat(e[6]) || "0.0",
+          sedekah: convertToFloat(e[7]) || "0.0",
           atk: {
-            thermal: e[8],
-            fc: e[9],
-            atk1: e[10],
-            atk2: e[11],
-            atk3: e[12],
-            atk4: e[13],
-            atk5: e[14],
-            atk6: e[15],
-            total_atk: e[16],
+            thermal: convertToFloat(e[8]) || "0.0",
+            fc: convertToFloat(e[9]) || "0.0",
+            atk1: convertToFloat(e[10]) || "0.0",
+            atk2: convertToFloat(e[11]) || "0.0",
+            atk3: convertToFloat(e[12]) || "0.0",
+            atk4: convertToFloat(e[13]) || "0.0",
+            atk5: convertToFloat(e[14]) || "0.0",
+            atk6: convertToFloat(e[15]) || "0.0",
+            total_atk: convertToFloat(e[16]) || "0.0",
           },
           peralatan: {
-            shooper: e[17],
-            blender: e[18],
-            regulator: e[19],
-            peralatan1: e[20],
-            peralatan2: e[21],
-            peralatan3: e[22],
-            peralatan4: e[23],
-            peralatan5: e[24],
-            total_peralatan: e[25],
+            shooper: convertToFloat(e[17]) || "0.0",
+            blender: convertToFloat(e[18]) || "0.0",
+            regulator: convertToFloat(e[19]) || "0.0",
+            peralatan1: convertToFloat(e[20]) || "0.0",
+            peralatan2: convertToFloat(e[21]) || "0.0",
+            peralatan3: convertToFloat(e[22]) || "0.0",
+            peralatan4: convertToFloat(e[23]) || "0.0",
+            peralatan5: convertToFloat(e[24]) || "0.0",
+            total_peralatan: convertToFloat(e[25]) || "0.0",
           },
           perlengkapan: {
-            obat: e[26],
-            sabut: e[27],
-            perlengkapan1: e[28],
-            perlengkapan2: e[29],
-            perlengkapan3: e[30],
-            perlengkapan4: e[31],
-            perlengkapan5: e[32],
-            perlengkapan6: e[33],
-            total_perlengkapan: e[34],
+            obat: convertToFloat(e[26]) || "0.0",
+            sabut: convertToFloat(e[27]) || "0.0",
+            perlengkapan1: convertToFloat(e[28]) || "0.0",
+            perlengkapan2: convertToFloat(e[29]) || "0.0",
+            perlengkapan3: convertToFloat(e[30]) || "0.0",
+            perlengkapan4: convertToFloat(e[31]) || "0.0",
+            perlengkapan5: convertToFloat(e[32]) || "0.0",
+            perlengkapan6: convertToFloat(e[33]) || "0.0",
+            total_perlengkapan: convertToFloat(e[34]) || "0.0",
           },
           lain_lain: {
-            sewa_lahan_parkir: e[35],
-            konsumsi_karyawan: e[36],
-            laundry: e[37],
-            iuran_warga: e[38],
-            sampah: e[39],
-            lain_lain1: e[40],
-            lain_lain2: e[41],
-            lain_lain3: e[42],
-            total_lain_lain: e[43],
+            sewa_lahan_parkir: convertToFloat(e[35]) || "0.0",
+            konsumsi_karyawan: convertToFloat(e[36]) || "0.0",
+            laundry: convertToFloat(e[37]) || "0.0",
+            iuran_warga: convertToFloat(e[38]) || "0.0",
+            sampah: convertToFloat(e[39]) || "0.0",
+            lain_lain1: convertToFloat(e[40]) || "0.0",
+            lain_lain2: convertToFloat(e[41]) || "0.0",
+            lain_lain3: convertToFloat(e[42]) || "0.0",
+            total_lain_lain: convertToFloat(e[43]) || "0.0",
           },
         };
         if (i > header_line) {
           data.push(row);
+          id++;
         }
       });
     } else if (sheetName == "REKAP MENU YANG TERJUAL") {
@@ -681,22 +833,26 @@ exports.ReadAll = async (req, res) => {
       });
       const columns = ["malam", "pagi", "sore", "total"];
       const lineHeader = 7;
+      let id = 1;
       newSpreadsheetData.forEach((e, i) => {
         if (i > lineHeader) {
           let row = {};
+          row["id"] = `${id++}`;
           row["menu"] = e[0];
           row["kategori"] = e[1];
           row["status"] = e[2];
           let data_outlet = [];
           let index = 2;
+          let sub_id = 1;
           outlets.forEach((child) => {
             let valueColumns = {};
             const title = titleKey(child);
             columns.forEach((item) => {
               index++;
-              valueColumns[item] = e[index] || "";
+              valueColumns[item] = convertToFloat(e[index]) || "0.0";
             });
             data_outlet.push({
+              id: `${sub_id++}`,
               nama: title,
               data: valueColumns,
             });
@@ -710,8 +866,12 @@ exports.ReadAll = async (req, res) => {
     } else {
       return resSuccess(res, `Keuangan -> ${sheetName}`, null);
     }
-    return resSuccess(res, `Keuangan -> ${sheetName}`, data);
+    return resSuccess(
+      res,
+      `Keuangan -> ${sheetName} Month -> ${Body.month} Regional -> ${Body.regional}`,
+      data
+    );
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

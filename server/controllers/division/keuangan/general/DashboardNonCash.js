@@ -6,45 +6,45 @@ const {
 const { Spreadsheet } = require("./../../../../config/Spreadsheet");
 
 const DataSet = {
-  getSpreadsheets: [
+  year: [
     {
-      year: 2020,
+      id: 2020,
       month: [
         {
           id: 1,
-          spreadsheetId: null,
+          spreadsheetId: "1SjetdFCVj8QWq7uUXs8pfSGHpCXUz8X4QpzY74iHNJ0",
         },
         {
           id: 2,
-          spreadsheetId: null,
+          spreadsheetId: "1lTqkHX4MAt6MGkc5W9lwjQyFuVI4dtm1utm9nhQCwWo",
         },
         {
           id: 3,
-          spreadsheetId: null,
+          spreadsheetId: "1pqTXg4ExwT085Hw5jGYTAMcSxMThWawrigNFTslNYtU",
         },
         {
           id: 4,
-          spreadsheetId: null,
+          spreadsheetId: "1tGz4j8ZjlPQ775lJy5HbwP-TRdJ7kfvXVKmKZWwNxko",
         },
         {
           id: 5,
-          spreadsheetId: null,
+          spreadsheetId: "1lR2ecygHvTPiqDs2oKykjsGAYV5_ZnjbWe9rnnpXvuU",
         },
         {
           id: 6,
-          spreadsheetId: null,
+          spreadsheetId: "1mwiFHqkpe76tI22tXwUFq5V8PYBr6bBkk841qaoHpQ0",
         },
         {
           id: 7,
-          spreadsheetId: null,
+          spreadsheetId: "1fFlJ-d73NLoI7Drf774jCKHH2JxExw7HGf0IOELGp-8",
         },
         {
           id: 8,
-          spreadsheetId: null,
+          spreadsheetId: "1CAFUn1xHJHWU7vQYET-EsdqIIDOrFjv7WUjRalJbJys",
         },
         {
           id: 9,
-          spreadsheetId: null,
+          spreadsheetId: "1zaqs0UBzUpIw4XN5tDD_I-HoAtyNA1syoJCF1ZpRMKg",
         },
         {
           id: 10,
@@ -52,16 +52,16 @@ const DataSet = {
         },
         {
           id: 11,
-          spreadsheetId: null,
+          spreadsheetId: "1BJYHtGJSFyH30Cv8nZneJHuOqO6P2jrLOhwpBjgFCsE",
         },
         {
           id: 12,
-          spreadsheetId: null,
+          spreadsheetId: "1W_j_Q884-ndJTl-78MmUAEM7_XFUyDUEmmTM3HBSRb4",
         },
       ],
     },
   ],
-  getSheetName: [
+  sheetName: [
     "GORESTO",
     "GRABRESTO",
     "GOJEK & GRAB",
@@ -121,6 +121,28 @@ const DataSet = {
 //   "yogyakarta",
 // ];
 
+function convertToAngka(rupiah) {
+  let string = `${rupiah}`;
+  let string2 = parseInt(string.replace(/,.*|[^0-9]/g, ""), 10);
+
+  return string2 ? string2 : 0;
+}
+
+function convertToFloat(rupiah) {
+  let string = `${rupiah}`;
+  let string1 = string.replace(/[^,0-9]/g, "");
+  let string2 = parseFloat(string1.replace(/,/g, ".")).toFixed(2);
+  if (string2 == "NaN") {
+    return "0.00";
+  } else {
+    return string2;
+  }
+}
+
+function isNormalInteger(str) {
+  return /^\+?(0|[1-9]\d*)$/.test(str);
+}
+
 exports.ReadAll = async (req, res) => {
   const schema = Joi.object({
     year: Joi.number().min(2020).max(2021).required(),
@@ -130,22 +152,22 @@ exports.ReadAll = async (req, res) => {
 
   const { error, value } = schema.validate(req.params);
   if (error) {
-    return resError(res, error.details[0].message, 404);
+    return resError(res, error.details[0].message, 200);
   }
   const Body = value;
   try {
-    const dataYear = DataSet.getSpreadsheets.find((e) => e.year == Body.year);
-    if (!dataYear) return resError(res, `${Body.year} not found`, 404);
+    const dataYear = DataSet.year.find((e) => e.id == Body.year);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
     const dataMonth = dataYear.month.find((e) => e.id == Body.month);
-    if (!dataMonth) return resError(res, `${Body.month} not found`, 404);
-    const sheetName = DataSet.getSheetName.find((e) => e == Body.sheet);
+    if (!dataMonth) return resError(res, `${Body.month} not found`, 200);
+    const sheetName = DataSet.sheetName.find((e) => e == Body.sheet);
 
     if (!sheetName) {
-      const dataSheet = DataSet.getSheetName.join(", ");
+      const dataSheet = DataSet.sheetName.join(", ");
       return resError(
         res,
         `${Body.sheet} not found ,available : ${dataSheet}`,
-        404
+        200
       );
     }
 
@@ -162,7 +184,7 @@ exports.ReadAll = async (req, res) => {
     };
 
     let data = [];
-
+    // "sisal_saldo_bulan",
     if (sheetName == "GORESTO") {
       let outlets = [];
       spreadsheetData[4].forEach((e, i) => {
@@ -171,7 +193,7 @@ exports.ReadAll = async (req, res) => {
         }
       });
       outlets.push("total");
-      const columns = ["grab", "rekening", "selisih"];
+      const columns = ["gopay", "rekening", "selisih"];
 
       const lineHeader = 5;
       spreadsheetData.forEach((e, i) => {
@@ -185,19 +207,36 @@ exports.ReadAll = async (req, res) => {
             const title = titleKey(child);
             columns.forEach((item) => {
               index++;
-              valueColumns[item] = e[index] || "";
+              valueColumns[item] = convertToFloat(e[index]) || "";
             });
             data_outlet.push({
-              nama: title,
+              nama_outlet: title,
               data: valueColumns,
             });
           });
-          row["outlets"] = data_outlet;
+          row["outlet"] = data_outlet;
           data.push(row);
         } else {
           i = lineHeader + 1;
         }
       });
+
+      const array = [];
+      data[0]["outlet"].forEach((e, i) => {
+        array.push({
+          id: i,
+          nama_outlet: e["nama_outlet"] || "",
+          data: [],
+        });
+      });
+      data.forEach((e, i) => {
+        e["outlet"].forEach((item, index) => {
+          item["data"]["id"] = e["tanggal"];
+          array[index]["data"].push(item["data"]);
+        });
+      });
+
+      data = array;
     } else if (sheetName == "GRABRESTO") {
       let outlets = [];
       spreadsheetData[4].forEach((e, i) => {
@@ -205,7 +244,7 @@ exports.ReadAll = async (req, res) => {
           outlets.push(e);
         }
       });
-      outlets.push("total");
+      // outlets.push("total");
       const columns = ["ovo", "rekening", "selisih"];
 
       const lineHeader = 5;
@@ -220,19 +259,36 @@ exports.ReadAll = async (req, res) => {
             const title = titleKey(child);
             columns.forEach((item) => {
               index++;
-              valueColumns[item] = e[index] || "";
+              valueColumns[item] = convertToFloat(e[index]) || "";
             });
             data_outlet.push({
               nama_outlet: title,
               data: valueColumns,
             });
           });
-          //   row["outlet"] = ;
-          data.push(data_outlet);
+          row["outlet"] = data_outlet;
+          data.push(row);
         } else {
           i = lineHeader + 1;
         }
       });
+
+      const array = [];
+      data[0]["outlet"].forEach((e, i) => {
+        array.push({
+          id: i,
+          nama_outlet: e["nama_outlet"] || "",
+          data: [],
+        });
+      });
+      data.forEach((e, i) => {
+        e["outlet"].forEach((item, index) => {
+          item["data"]["id"] = e["tanggal"];
+          array[index]["data"].push(item["data"]);
+        });
+      });
+
+      data = array;
     } else if (sheetName == "GOJEK & GRAB") {
       let outlets = [];
       spreadsheetData[5].forEach((e, i) => {
@@ -240,7 +296,7 @@ exports.ReadAll = async (req, res) => {
           outlets.push(e);
         }
       });
-      outlets.push("total");
+      // outlets.push("total");
       const columns = [
         "gopay",
         "ovo",
@@ -265,118 +321,185 @@ exports.ReadAll = async (req, res) => {
             const title = titleKey(child);
             columns.forEach((item) => {
               index++;
-              valueColumns[item] = e[index] || "";
+              if (item == "koreksi") {
+                valueColumns[item] = e[index] || "";
+              } else {
+                valueColumns[item] = convertToFloat(e[index]) || "";
+              }
             });
             data_outlet.push({
               nama_outlet: title,
               data: valueColumns,
             });
           });
-          //   row["outlet"] = ;
-          data.push(data_outlet);
+          row["outlet"] = data_outlet;
+          data.push(row);
         } else {
           i = lineHeader + 1;
         }
       });
+      //       {
+      //   id: 1,
+      //   gopay: "275561.50",
+      //   ovo: "0.00",
+      //   uang_fisik: "1247434.00",
+      //   nb: "0.00",
+      //   total_suplyer: "576500.00",
+      //   setoran_bersih: "224696.00",
+      //   ppn: "74494.50",
+      //   koreksi: "FALSE",
+      //   total_uang_non_cash: "1247434.00",
+      // },
+      const array = [];
+      data[0]["outlet"].forEach((e, i) => {
+        array.push({
+          id: i,
+          nama_outlet: e["nama_outlet"] || "",
+          data: [],
+        });
+      });
+      data.forEach((e, i) => {
+        e["outlet"].forEach((item, index) => {
+          item["data"]["id"] = e["tanggal"];
+          array[index]["data"].push(item["data"]);
+        });
+      });
+
+      data = array;
+
+      // return res.json(array);
     } else if (sheetName == "SALDO GORESTO") {
-      let row = {};
-      let i_row = 0;
-      let net_i_row = 4;
-
-      let ket_col = {};
-
-      let i_ket = 0;
-      const ket = [
-        "sisal_saldo_bulan",
+      const ketFirst = [
+        "saldo_bulan_kemarin",
         "go_resto_all",
         "transfer_pihak",
         "sisa_saldo",
       ];
-      const columns = ["debet", "kredit", "saldo"];
-      spreadsheetData.forEach((e) => {
-        const req_col = 5;
-        if (e.length <= req_col) {
-          const net_col = e.length - req_col;
-          for (let index = 0; index < net_col; index++) {
-            e.push("");
-          }
-        }
-        for (let i = 0; i < e.length; i++) {
-          if (i_row == 0 && i == 0) {
-            row["tanggal"] = e[i];
-          }
-          if (i == 2) {
-            let cols = {};
-            columns.forEach((column) => {
-              cols[column] = e[i] || "";
-              i++;
-            });
-            ket_col[ket[i_ket]] = cols;
-            i_ket++;
-          }
-        }
-        if (i_row == net_i_row - 1) {
-          row["keterangan"] = ket_col;
-          data.push(row);
-          i_row = 0;
-          i_ket = 0;
+      const ketAll = ["go_resto_all", "transfer_pihak", "sisa_saldo"];
+      const cols = ["debet", "kredit", "saldo"];
+
+      const ChangeDate = (string) => {
+        const array = string.split("/");
+        if (array.length == 3) {
+          return array[1];
         } else {
-          i_row++;
+          return array[0].toLowerCase();
         }
-      });
+      };
+
+      for (let i = 1; i < spreadsheetData.length; ) {
+        const e = spreadsheetData;
+        const temp = {};
+        temp["id"] = ChangeDate(e[i][0]);
+
+        if (i == 1) {
+          ketFirst.forEach((ket) => {
+            let i_row = i;
+            let i_col = 2;
+            temp[ket] = {};
+            cols.forEach((col) => {
+              temp[ket][col] = convertToFloat(e[i_row][i_col]) || "0.0";
+              i_col++;
+            });
+            i_row++;
+          });
+        } else if (temp["id"] == "total") {
+          // let i_col = 2;
+          // cols.forEach((col) => {
+          //   temp[col] = convertToFloat(e[i][i_col]) || "0.0";
+          //   i_col++;
+          // });
+        } else {
+          ketAll.forEach((ket) => {
+            let i_row = i;
+            let i_col = 2;
+            temp[ket] = {};
+            cols.forEach((col) => {
+              temp[ket][col] = convertToFloat(e[i_row][i_col]) || "0.0";
+              i_col++;
+            });
+            i_row++;
+          });
+        }
+        if (temp["id"] != "total") {
+          data.push(temp);
+        }
+
+        if (i == 1) {
+          i = i + 4;
+        } else {
+          i = i + 3;
+        }
+      }
     } else if (sheetName == "SALDO GRABRESTO") {
-      let row = {};
-      let i_row = 0;
-      let net_i_row = 4;
-
-      let ket_col = {};
-
-      let i_ket = 0;
-      const ket = [
-        "sisal_saldo_bulan",
-        "go_resto_all",
+      const ketFirst = [
+        "saldo_bulan_kemarin",
+        "grab_ovo_all",
         "transfer_pihak",
         "sisa_saldo",
       ];
-      const columns = ["debet", "kredit", "saldo"];
-      spreadsheetData.forEach((e) => {
-        const req_col = 5;
-        if (e.length <= req_col) {
-          const net_col = e.length - req_col;
-          for (let index = 0; index < net_col; index++) {
-            e.push("");
-          }
-        }
-        for (let i = 0; i < e.length; i++) {
-          if (i_row == 0 && i == 0) {
-            row["tanggal"] = e[i];
-          }
-          if (i == 2) {
-            let cols = {};
-            columns.forEach((column) => {
-              cols[column] = e[i] || "";
-              i++;
-            });
-            ket_col[ket[i_ket]] = cols;
-            i_ket++;
-            console.log(cols);
-            console.log(ket_col);
-          }
-        }
-        if (i_row == net_i_row - 1) {
-          row["keterangan"] = ket_col;
-          data.push(row);
-          i_row = 0;
-          i_ket = 0;
+      const ketAll = ["grab_ovo_all", "transfer_pihak", "sisa_saldo"];
+      const cols = ["debet", "kredit", "saldo"];
+
+      const ChangeDate = (string) => {
+        const array = string.split("/");
+        if (array.length == 3) {
+          return array[1];
         } else {
-          i_row++;
+          return array[0].toLowerCase();
         }
-      });
+      };
+
+      for (let i = 1; i < spreadsheetData.length; ) {
+        const e = spreadsheetData;
+        const temp = {};
+        temp["id"] = ChangeDate(e[i][0]);
+
+        if (i == 1) {
+          ketFirst.forEach((ket) => {
+            let i_row = i;
+            let i_col = 2;
+            temp[ket] = {};
+            cols.forEach((col) => {
+              temp[ket][col] = convertToFloat(e[i_row][i_col]) || "0.0";
+              i_col++;
+            });
+            i_row++;
+          });
+        } else if (temp["id"] == "total") {
+          // let i_col = 2;
+          // cols.forEach((col) => {
+          //   temp[col] = convertToFloat(e[i][i_col]) || "0.0";
+          //   i_col++;
+          // });
+        } else {
+          ketAll.forEach((ket) => {
+            let i_row = i;
+            let i_col = 2;
+            temp[ket] = {};
+            cols.forEach((col) => {
+              temp[ket][col] = convertToFloat(e[i_row][i_col]) || "0.0";
+              i_col++;
+            });
+            i_row++;
+          });
+        }
+        if (temp["id"] != "total") {
+          data.push(temp);
+        }
+
+        if (i == 1) {
+          i = i + 4;
+        } else {
+          i = i + 3;
+        }
+      }
     } else {
       return resSuccess(res, `Keuangan -> ${sheetName}`, null);
     }
+
     return resSuccess(res, `Keuangan -> ${sheetName}`, data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };

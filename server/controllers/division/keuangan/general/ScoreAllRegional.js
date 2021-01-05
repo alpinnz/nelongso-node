@@ -87,6 +87,26 @@ const DataSet = {
   ],
 };
 
+function convertToFloat(rupiah) {
+  let string = `${rupiah}`;
+  let string1 = string.replace(/[^,0-9]/g, "");
+  let string2 = parseFloat(string1.replace(/,/g, ".")).toFixed(2);
+  if (string2 == "NaN") {
+    return "0.00";
+  } else {
+    return string2;
+  }
+}
+
+const titleKey = (text) => {
+  const string = `${text}`;
+  const filter1 = string.substring(0, 1).replace(" ", "");
+  const filter2 = string.substring(1);
+  const titleText = filter1 + filter2;
+  const text1 = titleText.replace(/ /g, "_").toLowerCase();
+  return text1.replace(".", "");
+};
+
 exports.ReadAll = async (req, res) => {
   const schema = Joi.object({
     year: Joi.number().min(2020).max(2021).required(),
@@ -96,14 +116,14 @@ exports.ReadAll = async (req, res) => {
 
   const { error, value } = schema.validate(req.params);
   if (error) {
-    return resError(res, error.details[0].message, 404);
+    return resError(res, error.details[0].message, 200);
   }
   const Body = value;
   try {
     const dataYear = DataSet.getSpreadsheets.find((e) => e.year == Body.year);
-    if (!dataYear) return resError(res, `${Body.year} not found`, 404);
+    if (!dataYear) return resError(res, `${Body.year} not found`, 200);
     const dataMonth = dataYear.month.find((e) => e.id == Body.month);
-    if (!dataMonth) return resError(res, `${Body.month} not found`, 404);
+    if (!dataMonth) return resError(res, `${Body.month} not found`, 200);
     const sheetName = DataSet.getSheetName.find((e) => e == Body.sheet);
 
     if (!sheetName) {
@@ -111,7 +131,7 @@ exports.ReadAll = async (req, res) => {
       return resError(
         res,
         `${Body.sheet} not found ,available : ${dataSheet}`,
-        404
+        200
       );
     }
 
@@ -124,23 +144,22 @@ exports.ReadAll = async (req, res) => {
 
     let data = [];
 
-    const titleKey = (text) => {
-      const string = `${text}`;
-      const filter1 = string.substring(0, 1).replace(" ", "");
-      const filter2 = string.substring(1);
-      const titleText = filter1 + filter2;
-      return titleText.replace(/ /g, "_").toLowerCase();
-    };
-
     if (sheetName == "DATA") {
-      const lineHeader = 4;
+      let no = 1;
+      const lineHeader = 5;
       newSpreadsheetData.forEach((e, i) => {
         if (i > lineHeader) {
-          let row = {};
-          newSpreadsheetData[5].forEach((child, index) => {
-            const title = titleKey(child);
-            row[title] = e[index] || "";
-          });
+          let row = {
+            no: `${no++}`,
+            outlet: titleKey(e[0]) || "",
+            regional: titleKey(e[1]) || "",
+            nama_mitra: e[2] || "",
+            bank: e[3] || "",
+            no_rek: e[4] || "",
+            an_rek: e[5] || "",
+            pic: e[6] || "",
+            ppn: e[7] || "",
+          };
 
           data.push(row);
         } else {
@@ -148,24 +167,26 @@ exports.ReadAll = async (req, res) => {
         }
       });
     } else if (sheetName == "SHARE PROFIT & BEP") {
-      const lineHeader = 4;
+      const lineHeader = 5;
+      let id = 1;
       newSpreadsheetData.forEach((e, i) => {
         if (i > lineHeader) {
           const row = {
-            outlet: e[0] || "",
+            id: `${id++}`,
+            outlet: titleKey(e[0]) || "",
             share_profit: {
-              nelongso: e[1] || "",
-              persentase_nelongso: e[2] || "",
-              mitra: e[3] || "",
-              persentase_mitra: e[4] || "",
+              nelongso: convertToFloat(e[1]) || "0.0",
+              persentase_nelongso: convertToFloat(e[2]) || "0.0",
+              mitra: convertToFloat(e[3]) || "0.0",
+              persentase_mitra: convertToFloat(e[4]) || "0.0",
             },
             bep: {
-              nelongso: e[5] || "",
-              persentase_nelongso: e[6] || "",
-              mitra: e[7] || "",
-              persentase_mitra: e[8] || "",
+              nelongso: convertToFloat(e[5]) || "0.0",
+              persentase_nelongso: convertToFloat(e[6]) || "0.0",
+              mitra: convertToFloat(e[7]) || "0.0",
+              persentase_mitra: convertToFloat(e[8]) || "0.0",
             },
-            keterangan: e[9] || "",
+            keterangan: titleKey(e[9]) || "",
           };
 
           data.push(row);
@@ -180,124 +201,132 @@ exports.ReadAll = async (req, res) => {
       sheetName == "MINGGU 4" ||
       sheetName == "MINGGU 5"
     ) {
+      let no = 0;
+
       spreadsheetData.forEach((e, i) => {
         if (i > 5) {
+          no++;
           const row = {
-            no: e[0] || "",
-            outlet: e[1] || "",
-            regional: e[2] || "",
+            no: e[0] || `${no}`,
+            outlet: titleKey(e[1]) || "",
+            regional: titleKey(e[2]) || "",
             omzet: {
-              penjualan: e[3] || "",
-              ppn: e[4] || "",
-              gojek: e[5] || "",
-              grab: e[6] || "",
-              omset: e[7] || "",
-              target: e[8] || "",
-              persentase: e[9] || "",
+              penjualan: convertToFloat(e[3]) || "0.0",
+              ppn: convertToFloat(e[4]) || "0.0",
+              gojek: convertToFloat(e[5]) || "0.0",
+              grab: convertToFloat(e[6]) || "0.0",
+              omset: convertToFloat(e[7]) || "0.0",
+              target: convertToFloat(e[8]) || "0.0",
+              persentase: convertToFloat(e[9]) || "0.0",
             },
             harga_pokok_penjualan: {
-              harga_pokok_penjualan: e[10] || "",
-              hpp: e[11] || "",
-              target_hpp: e[12] || "",
-              pencapaian_hpp: e[13] || "",
+              harga_pokok_penjualan: convertToFloat(e[10]) || "0.0",
+              hpp: convertToFloat(e[11]) || "0.0",
+              target_hpp: convertToFloat(e[12]) || "0.0",
+              pencapaian_hpp: convertToFloat(e[13]) || "0.0",
             },
             total_operasional_produksi: {
-              bensin: e[14] || "",
-              listrik: e[15] || "",
-              pdam: e[16] || "",
-              wifi: e[17] || "",
-              sedotan_limbah: e[18] || "",
-              sewa_mess: e[19] || "",
-              atk: e[20] || "",
-              peralatan: e[21] || "",
-              perlengkapan: e[22] || "",
-              pemeliharaan_kendaraan_and_peralatan: e[23] || "",
-              sewa_lahan_parkir: e[24] || "",
-              konsumsi_karyawan: e[25] || "",
-              laundry: e[26] || "",
-              iuran_warga: e[27] || "",
-              sampah: e[28] || "",
-              sewa_ruko: e[29] || "",
-              rnd: e[30] || "",
-              perbaikan_outlet: e[31] || "",
-              biaya_lain_lain: e[32] || "",
-              total_operasional_produksi: e[33] || "",
-              persentase_operasional_produksi: e[34] || "",
-              target_operasional_produksi: e[35] || "",
-              pecapaian_operasional_produksi: e[36] || "",
+              bensin: convertToFloat(e[14]) || "0.0",
+              listrik: convertToFloat(e[15]) || "0.0",
+              pdam: convertToFloat(e[16]) || "0.0",
+              wifi: convertToFloat(e[17]) || "0.0",
+              sedotan_limbah: convertToFloat(e[18]) || "0.0",
+              sewa_mess: convertToFloat(e[19]) || "0.0",
+              atk: convertToFloat(e[20]) || "0.0",
+              peralatan: convertToFloat(e[21]) || "0.0",
+              perlengkapan: convertToFloat(e[22]) || "0.0",
+              pemeliharaan_kendaraan_and_peralatan:
+                convertToFloat(e[23]) || "0.0",
+              sewa_lahan_parkir: convertToFloat(e[24]) || "0.0",
+              konsumsi_karyawan: convertToFloat(e[25]) || "0.0",
+              laundry: convertToFloat(e[26]) || "0.0",
+              iuran_warga: convertToFloat(e[27]) || "0.0",
+              sampah: convertToFloat(e[28]) || "0.0",
+              sewa_ruko: convertToFloat(e[29]) || "0.0",
+              rnd: convertToFloat(e[30]) || "0.0",
+              perbaikan_outlet: convertToFloat(e[31]) || "0.0",
+              biaya_lain_lain: convertToFloat(e[32]) || "0.0",
+              total_operasional_produksi: convertToFloat(e[33]) || "0.0",
+              persentase_operasional_produksi: convertToFloat(e[34]) || "0.0",
+              target_operasional_produksi: convertToFloat(e[35]) || "0.0",
+              pecapaian_operasional_produksi: convertToFloat(e[36]) || "0.0",
             },
             operasional_non_produksi: {
-              pph: e[37] || "",
-              sedekah: e[38] || "",
-              bpjs: e[39] || "",
-              perawatan_program: e[40] || "",
-              beklame: e[41] || "",
-              reward: e[42] || "",
-              pbb: e[43] || "",
-              admin_bank: e[44] || "",
-              total_operasional_non_produksi: e[45] || "",
-              persentase_operasional_non_produksi: e[46] || "",
-              target_operasional_non_produksi: e[47] || "",
-              pecapaian_operasional_non_produksi: e[48] || "",
+              pph: convertToFloat(e[37]) || "0.0",
+              sedekah: convertToFloat(e[38]) || "0.0",
+              bpjs: convertToFloat(e[39]) || "0.0",
+              perawatan_program: convertToFloat(e[40]) || "0.0",
+              beklame: convertToFloat(e[41]) || "0.0",
+              reward: convertToFloat(e[42]) || "0.0",
+              pbb: convertToFloat(e[43]) || "0.0",
+              admin_bank: convertToFloat(e[44]) || "0.0",
+              total_operasional_non_produksi: convertToFloat(e[45]) || "0.0",
+              persentase_operasional_non_produksi:
+                convertToFloat(e[46]) || "0.0",
+              target_operasional_non_produksi: convertToFloat(e[47]) || "0.0",
+              pecapaian_operasional_non_produksi:
+                convertToFloat(e[48]) || "0.0",
             },
-            promo_marketing: e[49] || "",
-            gross_profit: e[50] || "",
+            promo_marketing: convertToFloat(e[49]) || "0.0",
+            gross_profit: convertToFloat(e[50]) || "0.0",
             beban_gaji: {
-              beban_gaji: e[51] || "",
-              gaji: e[52] || "",
-              target_gaji: e[53] || "",
-              pecapaian_gaji: e[54] || "",
+              beban_gaji: convertToFloat(e[51]) || "0.0",
+              gaji: convertToFloat(e[52]) || "0.0",
+              target_gaji: convertToFloat(e[53]) || "0.0",
+              pecapaian_gaji: convertToFloat(e[54]) || "0.0",
             },
             net_profit: {
-              net_profit: e[55] || "",
-              persentase_net_profit: e[56] || "",
-              target_net_profit: e[57] || "",
-              pencapaian_net_profit: e[58] || "",
+              net_profit: convertToFloat(e[55]) || "0.0",
+              persentase_net_profit: convertToFloat(e[56]) || "0.0",
+              target_net_profit: convertToFloat(e[57]) || "0.0",
+              pencapaian_net_profit: convertToFloat(e[58]) || "0.0",
             },
             pic: e[59] || "",
           };
-
           data.push(row);
         }
       });
     } else if (sheetName == "BIAYA TAMBAHAN") {
+      let no = 0;
       spreadsheetData.forEach((e, i) => {
         if (i > 5) {
+          no++;
           const row = {
-            no: e[0] || "",
-            outlet: e[1] || "",
-            regional: e[2] || "",
+            no: e[0] || `${no}`,
+            outlet: titleKey(e[1]) || "",
+            regional: titleKey(e[2]) || "",
             total_operasional_produksi: {
-              bensin: e[3] || "",
-              listrik: e[4] || "",
-              pdam: e[5] || "",
-              wifi: e[6] || "",
-              sedotan_limbah: e[7] || "",
-              sewa_mess: e[8] || "",
-              atk: e[9] || "",
-              peralatan: e[10] || "",
-              perlengkapan: e[11] || "",
-              pemeliharaan_kendaraan_and_peralatan: e[12] || "",
-              sewa_lahan_parkir: e[13] || "",
-              konsumsi_karyawan: e[14] || "",
-              laundry: e[15] || "",
-              iuran_warga: e[16] || "",
-              sampah: e[17] || "",
-              sewa_ruko: e[18] || "",
-              rnd: e[19] || "",
-              perbaikan_outlet: e[20] || "",
-              biaya_lain_lain: e[21] || "",
+              bensin: convertToFloat(e[3]) || "0.0",
+              listrik: convertToFloat(e[4]) || "0.0",
+              pdam: convertToFloat(e[5]) || "0.0",
+              wifi: convertToFloat(e[6]) || "0.0",
+              sedotan_limbah: convertToFloat(e[7]) || "0.0",
+              sewa_mess: convertToFloat(e[8]) || "0.0",
+              atk: convertToFloat(e[9]) || "0.0",
+              peralatan: convertToFloat(e[10]) || "0.0",
+              perlengkapan: convertToFloat(e[11]) || "0.0",
+              pemeliharaan_kendaraan_and_peralatan:
+                convertToFloat(e[12]) || "0.0",
+              sewa_lahan_parkir: convertToFloat(e[13]) || "0.0",
+              konsumsi_karyawan: convertToFloat(e[14]) || "0.0",
+              laundry: convertToFloat(e[15]) || "0.0",
+              iuran_warga: convertToFloat(e[16]) || "0.0",
+              sampah: convertToFloat(e[17]) || "0.0",
+              sewa_ruko: convertToFloat(e[18]) || "0.0",
+              rnd: convertToFloat(e[19]) || "0.0",
+              perbaikan_outlet: convertToFloat(e[20]) || "0.0",
+              biaya_lain_lain: convertToFloat(e[21]) || "0.0",
             },
             total_operasional_non_produksi: {
-              pph: e[22] || "",
-              sedekah: e[23] || "",
-              bpjs: e[24] || "",
-              perawatan_program: e[25] || "",
-              reklame: e[26] || "",
-              reward: e[27] || "",
-              pbb: e[28] || "",
-              admin_bank: e[29] || "",
-              lain_lain: e[30] || "",
+              pph: convertToFloat(e[22]) || "0.0",
+              sedekah: convertToFloat(e[23]) || "0.0",
+              bpjs: convertToFloat(e[24]) || "0.0",
+              perawatan_program: convertToFloat(e[25]) || "0.0",
+              reklame: convertToFloat(e[26]) || "0.0",
+              reward: convertToFloat(e[27]) || "0.0",
+              pbb: convertToFloat(e[28]) || "0.0",
+              admin_bank: convertToFloat(e[29]) || "0.0",
+              lain_lain: convertToFloat(e[30]) || "0.0",
             },
           };
 
@@ -305,89 +334,93 @@ exports.ReadAll = async (req, res) => {
         }
       });
     } else if (sheetName == "FINAL") {
+      let no = 0;
       spreadsheetData.forEach((e, i) => {
         if (i > 5) {
+          no++;
           const result = {
-            // no: e[0] || "",
-            outlet: e[0] || "",
-            regional: e[1] || "",
+            no: `${no}`,
+            outlet: titleKey(e[0]) || "",
+            regional: titleKey(e[1]) || "",
             omzet: {
-              penjualan: e[2] || "",
-              ppn: e[3] || "",
-              gojek: e[4] || "",
-              grab: e[5] || "",
-              omset: e[6] || "",
-              targe: e[7] || "",
-              persentase: e[8] || "",
+              penjualan: convertToFloat(e[2]) || "0.0",
+              ppn: convertToFloat(e[3]) || "0.0",
+              gojek: convertToFloat(e[4]) || "0.0",
+              grab: convertToFloat(e[5]) || "0.0",
+              omset: convertToFloat(e[6]) || "0.0",
+              targe: convertToFloat(e[7]) || "0.0",
+              persentase: convertToFloat(e[8]) || "0.0",
             },
             harga_pokok_penjualan: {
-              harga_pokok_penjualan: e[9] || "",
-              persentase_hpp: e[10] || "",
-              target_hpp: e[11] || "",
-              pencapaian_hpp: e[12] || "",
+              harga_pokok_penjualan: convertToFloat(e[9]) || "0.0",
+              persentase_hpp: convertToFloat(e[10]) || "0.0",
+              target_hpp: convertToFloat(e[11]) || "0.0",
+              pencapaian_hpp: convertToFloat(e[12]) || "0.0",
             },
             marketing: {
-              beban_pemasaran_and_iklan: e[13] || "",
-              persentase_marketing: e[14] || "",
-              target_marketing: e[15] || "",
-              pencapaian_marketing: e[16] || "",
+              beban_pemasaran_and_iklan: convertToFloat(e[13]) || "0.0",
+              persentase_marketing: convertToFloat(e[14]) || "0.0",
+              target_marketing: convertToFloat(e[15]) || "0.0",
+              pencapaian_marketing: convertToFloat(e[16]) || "0.0",
             },
             beban_gaji: {
-              beban_gaji: e[17] || "",
-              persentase_gaji: e[18] || "",
-              target_gaji: e[19] || "",
-              pencapaian_gaji: e[20] || "",
+              beban_gaji: convertToFloat(e[17]) || "0.0",
+              persentase_gaji: convertToFloat(e[18]) || "0.0",
+              target_gaji: convertToFloat(e[19]) || "0.0",
+              pencapaian_gaji: convertToFloat(e[20]) || "0.0",
             },
             total_operasional_produksi: {
-              bensin: e[21] || "",
-              listrik: e[22] || "",
-              pdam: e[23] || "",
-              wifi: e[24] || "",
-              sedotan_limbah: e[25] || "",
-              sewa_mess: e[26] || "",
-              atk: e[27] || "",
-              peralatan: e[28] || "",
-              perlengkapan: e[29] || "",
-              pemeliharaan_kendaraan_and_peralatan: e[30] || "",
-              sewa_lahan_parkir: e[31] || "",
-              konsumsi_karyawan: e[32] || "",
-              laundry: e[33] || "",
-              iuran_warga: e[34] || "",
-              sampah: e[35] || "",
-              sewa_ruko: e[36] || "",
-              rnd: e[37] || "",
-              perbaikan_outlet: e[38] || "",
-              biaya_lain_lain: e[39] || "",
-              lain_lain: e[40] || "",
-              total_operasional_produksi: e[41] || "",
-              persentase_operasional_produksi: e[42] || "",
-              target_operasional_produksi: e[43] || "",
-              pencapaian_operasional: e[44] || "",
+              bensin: convertToFloat(e[21]) || "0.0",
+              listrik: convertToFloat(e[22]) || "0.0",
+              pdam: convertToFloat(e[23]) || "0.0",
+              wifi: convertToFloat(e[24]) || "0.0",
+              sedotan_limbah: convertToFloat(e[25]) || "0.0",
+              sewa_mess: convertToFloat(e[26]) || "0.0",
+              atk: convertToFloat(e[27]) || "0.0",
+              peralatan: convertToFloat(e[28]) || "0.0",
+              perlengkapan: convertToFloat(e[29]) || "0.0",
+              pemeliharaan_kendaraan_and_peralatan:
+                convertToFloat(e[30]) || "0.0",
+              sewa_lahan_parkir: convertToFloat(e[31]) || "0.0",
+              konsumsi_karyawan: convertToFloat(e[32]) || "0.0",
+              laundry: convertToFloat(e[33]) || "0.0",
+              iuran_warga: convertToFloat(e[34]) || "0.0",
+              sampah: convertToFloat(e[35]) || "0.0",
+              sewa_ruko: convertToFloat(e[36]) || "0.0",
+              rnd: convertToFloat(e[37]) || "0.0",
+              perbaikan_outlet: convertToFloat(e[38]) || "0.0",
+              biaya_lain_lain: convertToFloat(e[39]) || "0.0",
+              lain_lain: convertToFloat(e[40]) || "0.0",
+              total_operasional_produksi: convertToFloat(e[41]) || "0.0",
+              persentase_operasional_produksi: convertToFloat(e[42]) || "0.0",
+              target_operasional_produksi: convertToFloat(e[43]) || "0.0",
+              pencapaian_operasional: convertToFloat(e[44]) || "0.0",
             },
             total_operasional_non_produksi: {
-              pph: e[45] || "",
-              sedekah: e[46] || "",
-              bpjs: e[47] || "",
-              perawatan_program: e[48] || "",
-              reklame: e[49] || "",
-              reward: e[50] || "",
-              pbb: e[51] || "",
-              admin_bank: e[52] || "",
-              lain_lain: e[53] || "",
-              total_operasional_non_produksi: e[54] || "",
-              persentase_operasional_non_produksi: e[55] || "",
-              target_operasional_non_produksi: e[56] || "",
-              pencapaian_non_operasional: e[57] || "",
+              pph: convertToFloat(e[45]) || "0.0",
+              sedekah: convertToFloat(e[46]) || "0.0",
+              bpjs: convertToFloat(e[47]) || "0.0",
+              perawatan_program: convertToFloat(e[48]) || "0.0",
+              reklame: convertToFloat(e[49]) || "0.0",
+              reward: convertToFloat(e[50]) || "0.0",
+              pbb: convertToFloat(e[51]) || "0.0",
+              admin_bank: convertToFloat(e[52]) || "0.0",
+              lain_lain: convertToFloat(e[53]) || "0.0",
+              total_operasional_non_produksi: convertToFloat(e[54]) || "0.0",
+              persentase_operasional_non_produksi:
+                convertToFloat(e[55]) || "0.0",
+              target_operasional_non_produksi: convertToFloat(e[56]) || "0.0",
+              pencapaian_non_operasional: convertToFloat(e[57]) || "0.0",
             },
             net_profit: {
-              net_profit: e[58] || "",
-              persentase_net_profit: e[59] || "",
-              target_net_profit: e[60] || "",
-              pencapaian_net_profit: e[61] || "",
+              net_profit: convertToFloat(e[58]) || "0.0",
+              persentase_net_profit: convertToFloat(e[59]) || "0.0",
+              target_net_profit: convertToFloat(e[60]) || "0.0",
+              pencapaian_net_profit: convertToFloat(e[61]) || "0.0",
             },
             share_profit: {
-              nelongso: e[62] || "",
-              mitra: e[63] || "",
+              nelongso: convertToFloat(e[62]) || "0.0",
+              mitra: convertToFloat(e[63]) || "0.0",
             },
           };
 
@@ -395,20 +428,21 @@ exports.ReadAll = async (req, res) => {
         }
       });
     } else if (sheetName == "PPH") {
+      let no = 1;
       spreadsheetData.forEach((e, i) => {
         if (i > 6) {
           const result = {
-            // no: item[0] || "",
-            outlet: e[0] || "",
+            no: `${no++}`,
+            outlet: titleKey(e[0]) || "",
             bulan_sebelum: {
-              net_profit: e[1] || "",
-              persentase: e[2] || "",
-              pph: e[3] || "",
+              net_profit: convertToFloat(e[1]) || "0.0",
+              persentase: convertToFloat(e[2]) || "0.0",
+              pph: convertToFloat(e[3]) || "0.0",
             },
             bulan_sekarang: {
-              net_profit: e[4] || "",
-              persentase: e[5] || "",
-              pph: e[6] || "",
+              net_profit: convertToFloat(e[4]) || "0.0",
+              persentase: convertToFloat(e[5]) || "0.0",
+              pph: convertToFloat(e[6]) || "0.0",
             },
           };
 
@@ -420,6 +454,6 @@ exports.ReadAll = async (req, res) => {
     }
     return resSuccess(res, `Keuangan -> ${sheetName}`, data);
   } catch (err) {
-    return resError(res, err, 404);
+    return resError(res, err, 200);
   }
 };
