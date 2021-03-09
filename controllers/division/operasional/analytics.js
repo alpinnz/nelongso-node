@@ -60,6 +60,8 @@ exports.ReadAll = async (req, res) => {
 
     // Data SpreadSheet
     const spreadsheetData = await Spreadsheet(spreadsheetId, sheetName);
+
+    return res.json(spreadsheetData);
     // _________________
 
     let data = [];
